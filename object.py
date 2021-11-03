@@ -1,6 +1,5 @@
 import pygame as pg
 import cv2
-
 pg.init()
 
 eng_alphabet = ['q','w','e','r','t','y','u','i','o','p','a','s','d','f','g','h','j','k','l','z','x','c','v','b','n','m','Q','W','E','R','T','Y','U','I','O','P','A','S','D','F','G','H','J','K','L','Z','X','C','V','B','N','M']
@@ -115,19 +114,7 @@ class InputBox:
         screen.blit(self.txt_surface, (self.rect.x, self.rect.y+self.space_in_y))
         # Blit the rect.
         pg.draw.rect(screen, self.color, self.rect, 2)
+    
 
-def pic(path,wei,hei):
-    image = cv2.imread(path)
-    Profile_pic = pg.image.load(path)
-    [h,w,d] = image.shape
-    if h>w:
-            ww = int(wei*(w/h))
-            hh = hei
-            jj = int((wei-(wei*w/h))/2)
-            kk = 0
-    if w>h:
-        ww = wei
-        hh = int(hei*(h/w))
-        jj = 0
-        kk = int((hei-(hei*h/w))/2)
-    return [ww,hh,jj,kk,Profile_pic]
+    
+
