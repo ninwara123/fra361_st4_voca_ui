@@ -143,6 +143,8 @@ while(1):
         if regis_click == 1 and pg.mouse.get_pressed()[0] == 0:
             regis_click = 0
             page = 'register'
+            distance_box.text = "  "
+            distance_box.txt_surface = distance_box.font.render(distance_box.text, True, pg.Color("black"))
 
         if distance_box.text == '  ': # ใส่เพราะแก้บัค
             t3 = Text(740, 290.3, 45, "browallianewbold", (192,192,192), 1, 'Username') #text username 
@@ -232,15 +234,22 @@ while(1):
 
         if uploadpic.mouse_on() and newstatus == 0: # ลากเม้าไปโดน blit รูป add picture
             screen.blit(ulp.add_pic_btn,(128,150))
-            if take_pic_state == 1: #กดถ่ายรูปแล้วถ่ายรูป (ยังไม่เสร็จ)
-                screen.blit(ulp.take_pic_btn,(224,289))
-                if pg.mouse.get_pressed()[0] == 1: 
-                    take_pic_state = 0
-                    pass
-                else:
-                    take_pic_state = 0  
             if take_pic.mouse_on():
-                take_pic_state = 1
+                if pg.mouse.get_pressed()[0] == 1: 
+                    take_pic_state = 1
+                screen.blit(ulp.take_pic_btn,(224,289))
+            while take_pic_state == 1:
+                takephoto = cv2.VideoCapture(0)
+                ret, frame = takephoto.read()
+                cv2.imshow('video',frame)
+                if (cv2.waitKey(1) & 0xFF == 13):
+                    cv2.imwrite("temp_data/capture.png",frame)
+                    take_pic_state = 0
+                    newstatus = 1
+#                    C:/fra361_st4_voca_ui/temp_data
+                    filepath = "C:/fra361_st4_voca_ui/temp_data/capture.png"
+                    takephoto.release()
+                    cv2.destroyAllWindows()
             if add_pic.mouse_on():  #กดถ่ายรูปแล้ว upload รูป
                 screen.blit(ulp.upload_pic_btn,(224,393))
                 if pg.mouse.get_pressed()[0] == 1:
@@ -278,11 +287,11 @@ while(1):
             if pg.mouse.get_pressed()[0] == 1:  # button get click
                 if r_btn_status == True :
                     if newstatus ==1:
-                        newpath = shutil.copy(filepath,"user_profile_pic")
+                        newpath = shutil.copy(filepath,"user_data")
                         not_use , typefi = newpath.split(".")
                     if newstatus ==0:
                         typefi = 'png'
-                        newpath = shutil.copy(ulp.defualt_user_pic_path,"user_profile_pic")
+                        newpath = shutil.copy(ulp.defualt_user_pic_path,"user_data")
                     # f = open(path_to_file, mode)
                     file = open('user_data/'+username_register.text+".txt","w")
                     file = open('user_data/'+username_register.text+".txt","a")
@@ -359,7 +368,7 @@ while(1):
             if pg.mouse.get_pressed()[0] == 1:
                 click = 1
             if pg.mouse.get_pressed()[0] == 0 and click ==1:
-                page = "practice"
+                page = 'practice'
                 click =0
         ####################################################################################################################### 
         if option.mouse_on() :                  #---------setting
@@ -434,7 +443,7 @@ while(1):
 
 ##### CODE THIS PAGE END ###################################################################################
 
-    elif page == "edit_profile":    
+    elif page == "edit_profile":  
         
         # backpage =""
         # screen.blit(edit_profile_ui,(0,0))
