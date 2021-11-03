@@ -27,10 +27,8 @@ red = (200, 0, 0)
 mint = (120,255,255)
 orange = (242,157,0)
 
-
 ### creat object ###########################################################################################
 #global
-
 
 #login_page
 register_btn = Button(729, 388 , 217, 87)
@@ -52,8 +50,8 @@ clear_pic = Button(0,670,100,50)
 
 # profile_page
 option = Button(1202,13,63,63)
-lession_btn = Button(597,487,865-597,593-487)
-practice_btn = Button(904,487,1171-904,593-487)
+lesson_btn = Button(597,487,268,106)
+practice_btn = Button(904,487,268,106)
 
 #setting_page
 a1 = Button(0,0,1023,720)
@@ -104,12 +102,14 @@ user_status = 'nohave'
 filepath = ""
 user_data_path = 'C:/fra361_st4_voca_ui/user_data'
 
-
 #words
 animal_word_pack = [5,['Turtle','Starfish','Octopus','Jellyfish','Seahorse']]
 class_room_word_pack  =  [6,['Calculator','Calendar','Magnifying Glass','Notice Board','Scissors']]
 food_word_pack =  [7,['Noodle','Spaghetti','Cookies','Croissant','Lamonade']]
 word_test = [] #memprofile , word 
+
+# practice_green_btn = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/practice_button.png')
+
 
 
 ### run code ###############################################################################################
@@ -133,6 +133,9 @@ while(1):
 
     elif page == 'login':
         screen.blit(ulp.login_page, (0,0))
+        if wrong[2] == 1:
+            t3 = Text(730,352, 30, "browallianewbold", (255,101,101), 1, 'Incorrect username')
+            t3.draw(screen)
         if register_btn.mouse_on():
             screen.blit(ulp.register_green_btn, (728, 388))
             if pg.mouse.get_pressed()[0] == 1: #next state
@@ -168,15 +171,12 @@ while(1):
                             memprofile = [u_n,f_n,s_n,n_n,t_p,animal_pass,classroom_pass,food_pass,fix_bug]
                             
                             click = 1
-                        print('memprofile')
-                        print(memprofile)
-                        # a,b,c,d,e,animal_pass,classroom_pass,food_pass,f = file.split(",")
-                        # memprofile = [a,b,c,d,e,animal_pass,classroom_pass,food_pass,f]
-                        # print('memprofile')
-                        # print(memprofile)
-                        # click = 1
+
 
                         file.close()
+
+                    print('memprofile')
+                    print(memprofile)
                     if user_status == 'nohave' :  
                         wrong[2] = 1
                     
@@ -271,16 +271,6 @@ while(1):
                 kk = int((440-(440*h/w))/2)
             screen.blit(ulp.bgwhite,(128,150))
             screen.blit(pg.transform.scale(Profile_pic,(ww,hh)),(134+jj,155+kk))
-            
-            # screen.blit(ulp.repic1_btn,(550,545))
-            # if repic_btn.mouse_on():
-            #     screen.blit(ulp.repic2_btn,(550,545))
-            #     if pg.mouse.get_pressed()[0] == 1:
-            #         newstatus = 0
-            #         filepath =''
-        # if clear_pic.mouse_on() and pg.mouse.get_pressed()[0] == 1: #กด Clear picture (ยังไม่เสร็จ)
-        #     newstatus = 0
-        #     filepath =''
 
 
         if regis_sub_btn.mouse_on(): #กดปุ่ม register ทำการสร้างไฟล์ ข้อมูลของแต่ละ User
@@ -356,20 +346,21 @@ while(1):
 
 
 
-        if lession_btn.mouse_on():
-            screen.blit(ulp.lession_green_btn,(597,487))
+        if lesson_btn.mouse_on():
+            screen.blit(ulp.lesson_green_btn,(597,487))
+            if pg.mouse.get_pressed()[0] == 1:
+                click = 1
+            if pg.mouse.get_pressed()[0] == 0 and click ==1:
+                page = "lesson"
+                click =0
+        if practice_btn.mouse_on():
+            # screen.blit(ulp.p_g_b(904,487))
+            # screen.blit(ulp.practice_green_btn(904,487))
             if pg.mouse.get_pressed()[0] == 1:
                 click = 1
             if pg.mouse.get_pressed()[0] == 0 and click ==1:
                 page = "practice"
                 click =0
-        # if practice_btn.mouse_on():
-        #     screen.blit(ulp.practice_green_btn(904,487))
-        #     if pg.mouse.get_pressed()[0] == 1:
-        #         click = 1
-        #     if pg.mouse.get_pressed()[0] == 0 and click ==1:
-        #         page = "practice"
-        #         click =0
         ####################################################################################################################### 
         if option.mouse_on() :                  #---------setting
             backpage = "profile"                # แสดงรูปภาพ
@@ -537,8 +528,8 @@ while(1):
 
 ##### CODE THIS PAGE END ####################################################################################
 
-    elif page == 'lession':
-        screen.blit(ulp.lession_page, (0,0))
+    elif page == 'lesson':
+        screen.blit(ulp.lesson_page, (0,0))
         if back_page_btn.mouse_on():
             screen.blit(ulp.back_page_green_btn,(15,12))
             if pg.mouse.get_pressed()[0] == 1:
@@ -554,7 +545,7 @@ while(1):
                 page = "profile"
                 click =0
         if option.mouse_on() :   #---------setting
-            backpage = "lession"
+            backpage = "lesson"
             screen.blit(ulp.all_setting_btn,(1023,12)) 
             pg.display.update()
             if pg.mouse.get_pressed()[0] == 1:
@@ -562,35 +553,35 @@ while(1):
                 option_sta =1
             if pg.mouse.get_pressed()[0] == 0 and click ==1:
                 page = "setting"
-                back_page_state = "lession"
+                back_page_state = "lesson"
                 click =0
 
         if animal_btn.mouse_on():
-            print('animal_btn')
+            # print('animal_btn')
             #?
             if pg.mouse.get_pressed()[0] == 1:
                 click = 1
             if pg.mouse.get_pressed()[0] == 0 and click ==1:
-                page = 'animal_lession'
+                page = 'animal_lesson'
                 click =0
 
 
         if class_room_btn.mouse_on():
-            print('class_room_btn')
+            # print('class_room_btn')
             #?
             if pg.mouse.get_pressed()[0] == 1:
                 click = 1
             if pg.mouse.get_pressed()[0] == 0 and click ==1:
-                page = 'class_room_lession'
+                page = 'class_room_lesson'
                 click =0
 
         if food_btn.mouse_on():
-            print('food_btn')
+            # print('food_btn')
             #?
             if pg.mouse.get_pressed()[0] == 1:
                 click = 1
             if pg.mouse.get_pressed()[0] == 0 and click ==1:
-                page = 'food_lession'
+                page = 'food_lesson'
                 click =0
 
         pg.display.update()
@@ -598,15 +589,15 @@ while(1):
             if event.type == pg.QUIT:
                 pg.quit() 
 
-    elif page == 'animal_lession':
-        print('animal_lession')
-        screen.blit(ulp.animal_lession_page, (0,0))
+    elif page == 'animal_lesson':
+        print('animal_lesson')
+        screen.blit(ulp.animal_lesson_page, (0,0))
         if back_page_btn.mouse_on():
             screen.blit(ulp.back_page_green_btn,(15,12))
             if pg.mouse.get_pressed()[0] == 1:
                 click = 1
             if pg.mouse.get_pressed()[0] == 0 and click ==1:
-                page = "lession"
+                page = "lesson"
                 click =0
         if back_home_btn.mouse_on():
             screen.blit(ulp.back_home_green_btn,(94,12))
@@ -616,7 +607,7 @@ while(1):
                 page = "profile"
                 click =0
         if option.mouse_on() :   #---------setting
-            backpage = "animal_lession"
+            backpage = "animal_lesson"
             screen.blit(ulp.all_setting_btn,(1023,12)) 
             pg.display.update()
             if pg.mouse.get_pressed()[0] == 1:
@@ -624,24 +615,23 @@ while(1):
                 option_sta =1
             if pg.mouse.get_pressed()[0] == 0 and click ==1:
                 page = "setting"
-                back_page_state = "animal_lession"
+                back_page_state = "animal_lesson"
                 click =0
-
 
         pg.display.update()
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit() 
 
-    elif page == 'class_room_lession':
-        print('class_room_lession')
-        screen.blit(ulp.class_room_lession_page, (0,0))
+    elif page == 'class_room_lesson':
+        print('class_room_lesson')
+        screen.blit(ulp.class_room_lesson_page, (0,0))
         if back_page_btn.mouse_on():
             screen.blit(ulp.back_page_green_btn,(15,12))
             if pg.mouse.get_pressed()[0] == 1:
                 click = 1
             if pg.mouse.get_pressed()[0] == 0 and click ==1:
-                page = "lession"
+                page = "lesson"
                 click =0
         if back_home_btn.mouse_on():
             screen.blit(ulp.back_home_green_btn,(94,12))
@@ -651,7 +641,7 @@ while(1):
                 page = "profile"
                 click =0
         if option.mouse_on() :   #---------setting
-            backpage = "class_room_lession"
+            backpage = "class_room_lesson"
             screen.blit(ulp.all_setting_btn,(1023,12)) 
             pg.display.update()
             if pg.mouse.get_pressed()[0] == 1:
@@ -659,22 +649,22 @@ while(1):
                 option_sta =1
             if pg.mouse.get_pressed()[0] == 0 and click ==1:
                 page = "setting"
-                back_page_state = "class_room_lession"
+                back_page_state = "class_room_lesson"
                 click =0
         pg.display.update()
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit() 
 
-    elif page == 'food_lession':
-        print('food_lession')
-        screen.blit(ulp.food_lession_page, (0,0))
+    elif page == 'food_lesson':
+        print('food_lesson')
+        screen.blit(ulp.food_lesson_page, (0,0))
         if back_page_btn.mouse_on():
             screen.blit(ulp.back_page_green_btn,(15,12))
             if pg.mouse.get_pressed()[0] == 1:
                 click = 1
             if pg.mouse.get_pressed()[0] == 0 and click ==1:
-                page = "lession"
+                page = "lesson"
                 click =0
         if back_home_btn.mouse_on():
             screen.blit(ulp.back_home_green_btn,(94,12))
@@ -684,7 +674,7 @@ while(1):
                 page = "profile"
                 click =0
         if option.mouse_on() :   #---------setting
-            backpage = "food_lession"
+            backpage = "food_lesson"
             screen.blit(ulp.all_setting_btn,(1023,12)) 
             pg.display.update()
             if pg.mouse.get_pressed()[0] == 1:
@@ -692,7 +682,7 @@ while(1):
                 option_sta =1
             if pg.mouse.get_pressed()[0] == 0 and click ==1:
                 page = "setting"
-                back_page_state = "food_lession"
+                back_page_state = "food_lesson"
                 click =0
         pg.display.update()
         for event in pg.event.get():
@@ -767,8 +757,6 @@ while(1):
             if event.type == pg.QUIT:
                 pg.quit() 
 
-
-    
     elif page == 'test_practice':
         
         screen.blit(ulp.test_page, (0,0))

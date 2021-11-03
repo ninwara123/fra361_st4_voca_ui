@@ -27,8 +27,11 @@ defualt_user_pic_path = 'C:/fra361_st4_voca_ui/ui_photo/defualt_profile.png'
 
 #profile
 profile_page = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/home_page.jpg')
-lession_green_btn = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/lesson_button.png')
+lesson_green_btn = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/lesson_button.png')
 practice_green_btn = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/lesson_button.png')
+# p_g_b = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/practice_button.png')
+practice_green_btn = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/practice_button.png')
+
 all_setting_btn = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/all.png')
 
 
@@ -46,17 +49,17 @@ back_home_green_btn = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/home_button.
 
 
 
-#lession_page
+#lesson_page
 
-lession_page =  pg.image.load('C:/fra361_st4_voca_ui/ui_photo/lesson_page.jpg')
+lesson_page =  pg.image.load('C:/fra361_st4_voca_ui/ui_photo/lesson_page.jpg')
 
-#animal_lession_page
-animal_lession_page = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/animal_lession_page.jpg')
-#class_room_lession_page
-class_room_lession_page = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/class_room_lession_page.jpg')
+#animal_lesson_page
+animal_lesson_page = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/animal_lesson_page.jpg')
+#class_room_lesson_page
+class_room_lesson_page = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/class_room_lesson_page.jpg')
 
-#food_lession_page
-food_lession_page = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/food_lession_page.jpg')
+#food_lesson_page
+food_lesson_page = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/food_lesson_page.jpg')
 #practice_page
 practice_page =  pg.image.load('C:/fra361_st4_voca_ui/ui_photo/practice_page.jpg')
 
