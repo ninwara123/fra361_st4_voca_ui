@@ -70,12 +70,26 @@ save_sub_btn = Button(823, 533, 217,60)
 back_page_btn = Button(13,13,59,59)
 back_home_btn = Button(93,13,59,59)
 
+#animal
+animal_btn = Button(123,50,375,310)
+
+#class_room
+class_room_btn = Button(455,50,375,310)
+
+#food
+food_btn = Button(860,50,375,310)
+
+#test
+back_test_btn = Button(1130,100,63,63)
+next_test_btn = Button(1200,100,63,63)
+
 ### variables #############################################################################################
 wrong =[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 click = 0
 regis_click = 0
 input_registor = [surname_register,firstname_register,nickname_register,username_register]
 input_boxes = [distance_box]
+Article = [0,0] # no.Article , check change Article
 
 
 memprofile = ['  ','  ','  ','  ','','','','',''] #username,surname,lastname,nickname,typeofpic,animalpass,classroompass,foodpass,forbug
@@ -90,14 +104,12 @@ user_status = 'nohave'
 filepath = ""
 user_data_path = 'C:/fra361_st4_voca_ui/user_data'
 
-#animal
-animal_btn = Button(123,50,375,310)
 
-#class_room
-class_room_btn = Button(455,50,375,310)
-
-#food
-food_btn = Button(860,50,375,310)
+#words
+animal_word_pack = [5,['Turtle','Starfish','Octopus','Jellyfish','Seahorse']]
+class_room_word_pack  =  [6,['Calculator','Calendar','Magnifying Glass','Notice Board','Scissors']]
+food_word_pack =  [7,['Noodle','Spaghetti','Cookies','Croissant','Lamonade']]
+word_test = [] #memprofile , word 
 
 
 ### run code ###############################################################################################
@@ -156,8 +168,8 @@ while(1):
                             memprofile = [u_n,f_n,s_n,n_n,t_p,animal_pass,classroom_pass,food_pass,fix_bug]
                             
                             click = 1
-                            print('memprofile')
-                            print(memprofile)
+                        print('memprofile')
+                        print(memprofile)
                         # a,b,c,d,e,animal_pass,classroom_pass,food_pass,f = file.split(",")
                         # memprofile = [a,b,c,d,e,animal_pass,classroom_pass,food_pass,f]
                         # print('memprofile')
@@ -285,7 +297,7 @@ while(1):
                     file = open('user_data/'+username_register.text+".txt","w")
                     file = open('user_data/'+username_register.text+".txt","a")
                     file.write("'"+username_register.text+"','"+firstname_register.text+"','"+\
-                        surname_register.text+"','"+nickname_register.text+","+typefi+",'0','0','0',""\n")          
+                        surname_register.text+"','"+nickname_register.text+","+typefi+",0,0,0,""\n")               
                     file.close() 
                     if newstatus == 1:
                         if typefi == 'png':
@@ -349,7 +361,7 @@ while(1):
             if pg.mouse.get_pressed()[0] == 1:
                 click = 1
             if pg.mouse.get_pressed()[0] == 0 and click ==1:
-                page = "lession"
+                page = "practice"
                 click =0
         # if practice_btn.mouse_on():
         #     screen.blit(ulp.practice_green_btn(904,487))
@@ -495,11 +507,6 @@ while(1):
             # print(" hold ")
             screen.blit(ulp.back_page_green_btn,(16,12))
             if pg.mouse.get_pressed()[0] == 1:
-                # for n in range (len(input_registor)):
-                #     input_registor[n].text = "  "
-                #     input_registor[n].txt_surface = input_registor[n].font.render(input_registor[n].text, True, pg.Color("black"))
-                # r_btn_status = False
-                # newstatus = 0
                 click = 1
             if pg.mouse.get_pressed()[0] == 0 and click ==1:
                 page =  back_page_state
@@ -694,8 +701,8 @@ while(1):
 
 ##### CODE THIS PAGE END ###################################################################################
 
-    elif page == 'lession':
-        screen.blit(ulp.lession_page, (0,0))
+    elif page == 'practice':
+        screen.blit(ulp.practice_page, (0,0))
         if back_page_btn.mouse_on():
             screen.blit(ulp.back_page_green_btn,(15,12))
             if pg.mouse.get_pressed()[0] == 1:
@@ -711,7 +718,7 @@ while(1):
                 page = "profile"
                 click =0
         if option.mouse_on() :   #---------setting
-            backpage = "lession"
+            backpage = "practice"
             screen.blit(ulp.all_setting_btn,(1023,12)) 
             pg.display.update()
             if pg.mouse.get_pressed()[0] == 1:
@@ -719,36 +726,119 @@ while(1):
                 option_sta =1
             if pg.mouse.get_pressed()[0] == 0 and click ==1:
                 page = "setting"
-                back_page_state = "lession"
+                back_page_state = "practice"
                 click =0
 
         if animal_btn.mouse_on():
-            print('animal_btn')
+            
             #?
             if pg.mouse.get_pressed()[0] == 1:
                 click = 1
             if pg.mouse.get_pressed()[0] == 0 and click ==1:
-                page = 'animal_lession'
+                
+                page = 'test_practice'
+                word_test = animal_word_pack
+                Article[0] = int(memprofile[word_test[0]])
                 click =0
 
 
         if class_room_btn.mouse_on():
-            print('class_room_btn')
             #?
             if pg.mouse.get_pressed()[0] == 1:
                 click = 1
             if pg.mouse.get_pressed()[0] == 0 and click ==1:
-                page = 'class_room_lession'
+                page = 'test_practice'
+                word_test = class_room_word_pack
+                Article[0] = int(memprofile[word_test[0]])
                 click =0
 
         if food_btn.mouse_on():
-            print('food_btn')
             #?
             if pg.mouse.get_pressed()[0] == 1:
                 click = 1
             if pg.mouse.get_pressed()[0] == 0 and click ==1:
-                page = 'food_lession'
+                page = 'test_practice'
+                word_test = food_word_pack
+                Article[0] = int(memprofile[word_test[0]])
                 click =0
+
+        pg.display.update()
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                pg.quit() 
+
+
+    
+    elif page == 'test_practice':
+        
+        screen.blit(ulp.test_page, (0,0))
+        if back_page_btn.mouse_on():
+            screen.blit(ulp.back_page_green_btn,(15,12))
+            if pg.mouse.get_pressed()[0] == 1:
+                click = 1
+            if pg.mouse.get_pressed()[0] == 0 and click ==1:
+                page = "practice"
+                click =0
+        if back_home_btn.mouse_on():
+            screen.blit(ulp.back_home_green_btn,(94,12))
+            if pg.mouse.get_pressed()[0] == 1:
+                click = 1
+            if pg.mouse.get_pressed()[0] == 0 and click ==1:
+                page = "profile"
+                click =0
+        if option.mouse_on() :   #---------setting
+            backpage = "test_practice"
+            screen.blit(ulp.all_setting_btn,(1023,12)) 
+            pg.display.update()
+            if pg.mouse.get_pressed()[0] == 1:
+                click = 1
+                option_sta =1
+            if pg.mouse.get_pressed()[0] == 0 and click ==1:
+                page = "setting"
+                back_page_state = "test_practice"
+                click =0
+
+        if Article[0] > 0:
+            if back_test_btn.mouse_on():
+                if pg.mouse.get_pressed()[0] == 1:
+                    click = 1
+                if pg.mouse.get_pressed()[0] == 0 and click ==1:
+                    Article[1] = 1
+                    Article[0] -= 1
+                    
+                    click =0
+        if Article[0] < 4:
+            if next_test_btn.mouse_on():
+                if pg.mouse.get_pressed()[0] == 1:
+                    click = 1
+                if pg.mouse.get_pressed()[0] == 0 and click ==1:
+                    
+                    Article[1] = 1
+                    Article[0] += 1
+                    
+                    click =0
+        if Article[1] == 1 :
+            memprofile[word_test[0]] = str(Article[0])
+            Article[1] = 0
+
+            user_file_name = memprofile[0].replace("'","")
+            file = open('user_data/'+user_file_name+".txt","r+")
+            file.write(memprofile[0]+","+memprofile[1]+","+memprofile[2]+","+memprofile[3]+","+memprofile[4]+","\
+                +memprofile[5]+","+memprofile[6]+","+memprofile[7]+",")          
+            file.close() 
+            file = open('user_data/'+user_file_name+".txt","r")
+            for i in file:
+                u_n,f_n,s_n,n_n,t_p,animal_pass,classroom_pass,food_pass,fix_bug = i.split(",")
+                memprofile = [u_n,f_n,s_n,n_n,t_p,animal_pass,classroom_pass,food_pass,fix_bug]
+            # print(memprofile)
+                    
+
+        # print('Article')
+        # print(Article)
+        # print('memprofile[word_test[0]]')
+        # print(memprofile[word_test[0]])
+        t3 = Text(500,300, 80, "browallianewbold", red, 1, word_test[1][Article[0]]) #text username 
+        t3.draw(screen)
 
         pg.display.update()
         for event in pg.event.get():

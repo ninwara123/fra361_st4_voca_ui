@@ -1,1 +1,1 @@
-'  q','  qqqqqqqqq','  qqqqqqq','  q',png,'0','0','0',
+'  q','  q','  q','  q,png,3,4,4,

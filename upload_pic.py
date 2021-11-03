@@ -1,4 +1,5 @@
 
+from tkinter.filedialog import test
 import pygame as pg
 
 #### my path  'C:/fra361_st4_voca_ui/ui_photo/
@@ -57,10 +58,10 @@ class_room_lession_page = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/class_ro
 #food_lession_page
 food_lession_page = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/food_lession_page.jpg')
 #practice_page
-
-
 practice_page =  pg.image.load('C:/fra361_st4_voca_ui/ui_photo/practice_page.jpg')
 
+#practice_page
+test_page = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/animal_pract_1.jpg')
 
 
 
@@ -73,21 +74,6 @@ practice_page =  pg.image.load('C:/fra361_st4_voca_ui/ui_photo/practice_page.jpg
 
 
 #########################################################################################
-startpg = pg.image.load('C:/UI-st4/IU64/UIPHOTO/photo/first_page.jpg')
-pg3 = pg.image.load('C:/UI-st4/IU64/UIPHOTO/photo/lesson_page.jpg')
-fade = pg.image.load('C:/UI-st4/IU64/UIPHOTO/photo/new_login_page.jpg')
-login = pg.image.load('C:/UI-st4/IU64/UIPHOTO/photo/new_login_button.png')
-regis = pg.image.load('C:/UI-st4/IU64/UIPHOTO/photo/new_regis_button.png')
-ui3 = pg.image.load('C:/UI-st4/IU64/UIPHOTO/photo/new_register_page.jpg')
-pgpf = pg.image.load('C:/UI-st4/IU64/UIPHOTO/photo/home_page.jpg')
-pgpf2 = pg.image.load('C:/UI-st4/IU64/UIPHOTO/photo/home_page.png')
-setting = pg.image.load('C:/UI-st4/IU64/UIPHOTO/photo/popup_setting.png')
-setting_btn = pg.image.load('C:/UI-st4/IU64/UIPHOTO/photo/setting_button.png')
-bgwhite = pg.image.load('C:/UI-st4/IU64/UIPHOTO/photo/background_pic.png')
-
-
-defualt_p_path = 'C:/UI-st4/IU64/UIPHOTO/photo/defualt_profile.png'
-
 
 
 
