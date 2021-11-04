@@ -1,5 +1,5 @@
 # from os import name
-from os import path, read
+from os import path
 import os
 from tkinter.constants import E
 import pygame as pg
@@ -11,7 +11,7 @@ import shutil
 import cv2
 import upload_pic as ulp
 from function import resize,pic
-import csv
+
 ### init ###################################################################################################
 pg.init()
 win_x, win_y = 1280, 720
@@ -80,7 +80,6 @@ food_btn = Button(860,50,375,310)
 #test
 back_test_btn = Button(1130,100,63,63)
 next_test_btn = Button(1200,100,63,63)
-correct_btn = Button(800,250,400,400)
 
 ### variables #############################################################################################
 wrong =[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
@@ -91,26 +90,22 @@ input_boxes = [distance_box]
 Article = [0,0] # no.Article , check change Article
 
 
-memprofile = []    # 'username', 'firstname', 'surname', 'nickname','type_of_pic'
-hold_p = []        # 'animal_hold_p','classroom_hold_p','food_hold_p'
-test_pass =[]      # 'animal_pass','classroom_pass','food_pass'
-
+memprofile = ['  ','  ','  ','  ','','','','',''] #username,surname,lastname,nickname,typeofpic,animalpass,classroompass,foodpass,forbug
 # state variables
 page = 'start'
 newstatus = 0
 take_pic_state = 0
 add_pic_state = 0
 user_status = 'nohave' 
-pass_test_flag = 0
-mark_pass = ''
+
 #path
 filepath = ""
 user_data_path = 'C:/fra361_st4_voca_ui/user_data'
 
 #words
-animal_word_pack = [0,['Turtle','Starfish','Octopus','Jellyfish','Seahorse']]
-classroon_word_pack  =  [1,['Calculator','Calendar','Magnifying Glass','Notice Board','Scissors']]
-food_word_pack =  [2,['Noodle','Spaghetti','Cookies','Croissant','Lamonade']]
+animal_word_pack = [5,['Turtle','Starfish','Octopus','Jellyfish','Seahorse']]
+classroon_word_pack  =  [6,['Calculator','Calendar','Magnifying Glass','Notice Board','Scissors']]
+food_word_pack =  [7,['Noodle','Spaghetti','Cookies','Croissant','Lamonade']]
 word_test = [] #memprofile , word 
 
 # practice_green_btn = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/practice_button.png')
@@ -168,24 +163,22 @@ while(1):
                     
                     filenames = os.listdir(user_data_path)
                     for filename in filenames:
-                        if distance_box.text+'.csv' == filename:
+                        if distance_box.text+'.txt' == filename:
                             user_status = 'have'
-                    if  user_status == 'have' : 
-                        click = 1    
-                        user_data_file = open('user_data/'+distance_box.text+'.csv','r', encoding="utf8")
-                        reader = csv.reader(user_data_file)
-                        for row in reader:
-                            memprofile = row[0:5]
-                            hold_p = row[5:8]
-                            test_pass = row[8:11]
-                        user_data_file.close()
+                    if  user_status == 'have' :     
+                        file = open('user_data/'+distance_box.text+".txt","r")
+
+                        for i in file:
+                            u_n,f_n,s_n,n_n,t_p,animal_pass,classroom_pass,food_pass,fix_bug = i.split(",")
+                            memprofile = [u_n,f_n,s_n,n_n,t_p,animal_pass,classroom_pass,food_pass,fix_bug]
+                            
+                            click = 1
+
+
+                        file.close()
+
                     print('memprofile')
                     print(memprofile)
-                    print("hold_p")
-                    print(hold_p)
-                    print("test pass")
-                    print(test_pass)        
-                    # page = 'profile'
                     if user_status == 'nohave' :  
                         wrong[2] = 1
                     
@@ -253,7 +246,7 @@ while(1):
                     cv2.imwrite("temp_data/capture.png",frame)
                     take_pic_state = 0
                     newstatus = 1
-                # C:/fra361_st4_voca_ui/temp_data
+#                    C:/fra361_st4_voca_ui/temp_data
                     filepath = "C:/fra361_st4_voca_ui/temp_data/capture.png"
                     takephoto.release()
                     cv2.destroyAllWindows()
@@ -299,19 +292,12 @@ while(1):
                     if newstatus ==0:
                         typefi = 'png'
                         newpath = shutil.copy(ulp.defualt_user_pic_path,"user_data")
-
-                    user_data_file = open('user_data/'+username_register.text+'.csv', 'x') #creat file
-                    # f.close()
-                    # row = ['username', 'firstname', 'surname', 'nickname','type_of_pic',
-                    #         'animal_hold_p','classroom_hold_p','food_hold_p','animal_pass','classroom_pass','food_pass']
-                    row = [username_register.text, firstname_register.text, surname_register.text, nickname_register.text,typefi,
-                           0,0,0,'','','']
-                    
-                    user_data_file = open('user_data/'+username_register.text+'.csv','w', encoding='UTF8', newline='') 
-                    writer = csv.writer(user_data_file)
-                    writer.writerow(row)
-                    user_data_file.close()
-
+                    # f = open(path_to_file, mode)
+                    file = open('user_data/'+username_register.text+".txt","w")
+                    file = open('user_data/'+username_register.text+".txt","a")
+                    file.write("'"+username_register.text+"','"+firstname_register.text+"','"+\
+                        surname_register.text+"','"+nickname_register.text+","+typefi+",0,0,0,""\n")               
+                    file.close() 
                     if newstatus == 1:
                         if typefi == 'png':
                             os.rename(newpath,'user_data/'+username_register.text+'.png') 
@@ -352,16 +338,15 @@ while(1):
 ##### CODE THIS PAGE END ####################################################################################
 
     elif page == "profile" :
-        # print("profile")
         screen.blit(ulp.profile_page,(0,0))
 
-        userFirstName = memprofile[1].replace(" ","")
-        userSurName = memprofile[2].replace(" ","")
-        userNickName = memprofile[3].replace(" ","")
-        userFullName = userFirstName+"  "+userSurName
+        userName = memprofile[1].replace("'","").replace(" ","")
+        userSurName = memprofile[2].replace("'","").replace(" ","")
+        userNickName = memprofile[3].replace("'","").replace(" ","")
+        userFullName = userName+"  "+userSurName
         t3 = Text(743, 216, 45, "browallianewbold", (0,0,0), 1, userFullName)
         t4 = Text(810, 294, 45, "browallianewbold", (0,0,0), 1, userNickName)
-        filepath = 'C:/fra361_st4_voca_ui/user_data/'+str(memprofile[0])+"."+str(memprofile[4])
+        filepath = 'C:/fra361_st4_voca_ui/user_data/'+str(memprofile[0].replace("'",""))+"."+str(memprofile[4])
         pic_show_data = pic(filepath,400,440)
 
         screen.blit(pg.transform.scale(pic_show_data[4],(pic_show_data[0],pic_show_data[1])),(85+pic_show_data[2],155+pic_show_data[3])) 
@@ -451,8 +436,8 @@ while(1):
                 pg.quit()
 
     elif page =="logout":
-        memprofile=[]
-        wrong =[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+        memprofile=["","","","","",""]
+        # wrong =[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
         logout_status = 1
         page = "login"
 
@@ -505,31 +490,15 @@ while(1):
             if pg.mouse.get_pressed()[0] == 1:  # button get click
                 if r_btn_status == True :
                     click =1
-                    user_file_name = memprofile[0]
-
-                    row = [memprofile[0], firstname_register1.text, surname_register1.text, nickname_register1.text,memprofile[4],
-                            hold_p[0],hold_p[1],hold_p[2],test_pass[0],test_pass[1],test_pass[2]]
-
-                    user_data_file = open('user_data/'+user_file_name+'.csv','r+', encoding='UTF8', newline='') 
-                    writer = csv.writer(user_data_file)
-                    writer.writerow(row)
-                    user_data_file.close()
-
-                    user_data_file = open('user_data/'+user_file_name+'.csv','r', encoding="utf8")
-                    reader = csv.reader(user_data_file)
-                    for row in reader:
-                        memprofile = row[0:5]
-                        hold_p = row[5:8]
-                        test_pass = row[8:11]
-                    user_data_file.close()
-
-                    print('memprofile')
-                    print(memprofile)
-                    print("hold_p")
-                    print(hold_p)
-                    print("test pass")
-                    print(test_pass)   
-
+                    user_file_name = memprofile[0].replace("'","")
+                    file = open('user_data/'+user_file_name+".txt","r+")
+                    file.write(memprofile[0]+",'"+firstname_register1.text+"','"+surname_register1.text+"','"+nickname_register1.text+"',"+memprofile[4]+","+memprofile[5]+","+memprofile[6]+","+memprofile[7]+",")          
+                    file.close() 
+                    file = open('user_data/'+user_file_name+".txt","r")
+                    for i in file:
+                        u_n,f_n,s_n,n_n,t_p,animal_pass,classroom_pass,food_pass,fix_bug = i.split(",")
+                        memprofile = [u_n,f_n,s_n,n_n,t_p,animal_pass,classroom_pass,food_pass,fix_bug]
+                    
             if pg.mouse.get_pressed()[0] == 0 and click ==1:
                 page = "profile"
                 click =0
@@ -760,6 +729,7 @@ while(1):
                 click =0
 
         if animal_btn.mouse_on():
+            
             #?
             if pg.mouse.get_pressed()[0] == 1:
                 click = 1
@@ -767,7 +737,7 @@ while(1):
                 
                 page = 'test_practice'
                 word_test = animal_word_pack
-                Article[0] = int(hold_p[word_test[0]])
+                Article[0] = int(memprofile[word_test[0]])
                 click =0
 
 
@@ -778,7 +748,7 @@ while(1):
             if pg.mouse.get_pressed()[0] == 0 and click ==1:
                 page = 'test_practice'
                 word_test = classroon_word_pack
-                Article[0] = int(hold_p[word_test[0]])
+                Article[0] = int(memprofile[word_test[0]])
                 click =0
 
         if food_btn.mouse_on():
@@ -788,7 +758,7 @@ while(1):
             if pg.mouse.get_pressed()[0] == 0 and click ==1:
                 page = 'test_practice'
                 word_test = food_word_pack
-                Article[0] = int(hold_p[word_test[0]])
+                Article[0] = int(memprofile[word_test[0]])
                 click =0
 
         pg.display.update()
@@ -844,77 +814,28 @@ while(1):
                     Article[0] += 1
                     
                     click =0
-        #save change
         if Article[1] == 1 :
+            memprofile[word_test[0]] = str(Article[0])
             Article[1] = 0
-            hold_p[word_test[0]] = str(Article[0])
-            
-            user_file_name = memprofile[0]
-            row = [memprofile[0],memprofile[1],memprofile[2],memprofile[3],memprofile[4],
-                    hold_p[0],hold_p[1],hold_p[2],test_pass[0],test_pass[1],test_pass[2]]
 
-            user_data_file = open('user_data/'+user_file_name+'.csv','r+', encoding='UTF8', newline='') 
-            writer = csv.writer(user_data_file)
-            writer.writerow(row)
-            user_data_file.close()
+            user_file_name = memprofile[0].replace("'","")
+            file = open('user_data/'+user_file_name+".txt","r+")
+            file.write(memprofile[0]+","+memprofile[1]+","+memprofile[2]+","+memprofile[3]+","+memprofile[4]+","\
+                +memprofile[5]+","+memprofile[6]+","+memprofile[7]+",")          
+            file.close() 
+            file = open('user_data/'+user_file_name+".txt","r")
+            for i in file:
+                u_n,f_n,s_n,n_n,t_p,animal_pass,classroom_pass,food_pass,fix_bug = i.split(",")
+                memprofile = [u_n,f_n,s_n,n_n,t_p,animal_pass,classroom_pass,food_pass,fix_bug]
+            # print(memprofile)
+                    
 
-            user_data_file = open('user_data/'+user_file_name+'.csv','r', encoding="utf8")
-            reader = csv.reader(user_data_file)
-            for row in reader:
-                memprofile = row[0:5]
-                hold_p = row[5:8]
-                test_pass = row[8:11]
-            user_data_file.close()
-
-            print('memprofile')
-            print(memprofile)
-            print("hold_p")
-            print(hold_p)
-            print("test pass")
-            print(test_pass)   
-
+        # print('Article')
+        # print(Article)
+        # print('memprofile[word_test[0]]')
+        # print(memprofile[word_test[0]])
         t3 = Text(500,300, 80, "browallianewbold", red, 1, word_test[1][Article[0]]) #text username 
         t3.draw(screen)
-
-        #for beta
-        screen.blit(ulp.correct_icon,(800,250))
-        if correct_btn.mouse_on():
-            # print("mouse on")
-            if pg.mouse.get_pressed()[0] == 1:
-                click = 1
-            if pg.mouse.get_pressed()[0] == 0 and click ==1:
-                pass_test_flag = 1
-                click =0
-        # for point
-        if pass_test_flag == 1 :
-            Article[1] = 1
-            pass_test_flag = 0
-            if Article[0] == 0 and test_pass[word_test[0]].find("A") == -1 : mark_pass = "A"
-            elif Article[0] == 1 and test_pass[word_test[0]].find("B") == -1 : mark_pass = "B"
-            elif Article[0] == 2 and test_pass[word_test[0]].find("C") == -1 : mark_pass = "C"
-            elif Article[0] == 3 and test_pass[word_test[0]].find("D") == -1 : mark_pass = "D"
-            elif Article[0] == 4 and test_pass[word_test[0]].find("E") == -1 : mark_pass = "E"
-            test_pass[word_test[0]] = test_pass[word_test[0]] + mark_pass
-            mark_pass = ''
-
-        if Article[0] == 0 and test_pass[word_test[0]].find("A") != -1 :
-            t4 = Text(90,250, 80, "browallianewbold", green, 1, "PASS") 
-            t4.draw(screen)
-        elif Article[0] == 1 and test_pass[word_test[0]].find("B") != -1 :
-            t4 = Text(90,250, 80, "browallianewbold", green, 1, "PASS") 
-            t4.draw(screen)
-        elif Article[0] == 2 and test_pass[word_test[0]].find("C") != -1 :
-            t4 = Text(90,250, 80, "browallianewbold", green, 1, "PASS") 
-            t4.draw(screen)
-        elif Article[0] == 3 and test_pass[word_test[0]].find("D") != -1 :
-            t4 = Text(90,250, 80, "browallianewbold", green, 1, "PASS") 
-            t4.draw(screen)
-        elif Article[0] == 4 and test_pass[word_test[0]].find("E") != -1 :
-            t4 = Text(90,250, 80, "browallianewbold", green, 1, "PASS") 
-            t4.draw(screen)
-        else :
-            t4 = Text(90,250, 80, "browallianewbold", green, 1, "")
-            t4.draw(screen)
 
         pg.display.update()
         for event in pg.event.get():

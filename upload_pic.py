@@ -55,8 +55,8 @@ lesson_page =  pg.image.load('C:/fra361_st4_voca_ui/ui_photo/lesson_page.jpg')
 
 #animal_lesson_page
 animal_lesson_page = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/animal_lesson_page.jpg')
-#class_room_lesson_page
-class_room_lesson_page = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/class_room_lesson_page.jpg')
+#classroon_lesson_page
+classroon_lesson_page = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/classroon_lesson_page.jpg')
 
 #food_lesson_page
 food_lesson_page = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/food_lesson_page.jpg')
@@ -65,7 +65,7 @@ practice_page =  pg.image.load('C:/fra361_st4_voca_ui/ui_photo/practice_page.jpg
 
 #practice_page
 test_page = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/animal_pract_1.jpg')
-
+correct_icon = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/correct.jpg')
 
 
 

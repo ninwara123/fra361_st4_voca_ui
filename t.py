@@ -27,35 +27,23 @@ with open('user_data/'+x+'.csv', 'w') as f:
 keys = ['username', 'firstname', 'surname', 'nickname','type_of_pic','animal_hold_p','animal_pass','classroom_hold_p','classroom_pass','food_hold_p','food_pass']
 # keys =[]
 rows = [
-        # {
-        # 'username' : 'q', 
-        # 'firstname': 'waraset' , 
-        # 'surname': 'wongsawat', 
-        # 'nickname' : 'nin',
-        # 'type_of_pic'  : '.jpg',
-        # 'animal_hold_p' :0,'classroom_hold_p':0,'food_hold_p':0,
-        # 'animal_pass':1,'classroom_pass':2,'food_pass':2
-        # }
-        # ,
+        {
+        'username' : 'q', 
+        'firstname': 'waraset' , 
+        'surname': 'wongsawat', 
+        'nickname' : 'nin',
+        'type_of_pic'  : '.jpg',
+        'animal_hold_p' :0,'classroom_hold_p':0,'food_hold_p':0,
+        'animal_pass':1,'classroom_pass':2,'food_pass':2
+        }
+        ,
         {'animal_pass':0,'classroom_pass':0,'food_pass':0}
         ,{'animal_pass':0,'classroom_pass':0,'food_pass':0}
         ,{'animal_pass':0,'classroom_pass':0,'food_pass':0}
         ,{'animal_pass':0,'classroom_pass':0,'food_pass':0}
         ]
-#     {'name': 'Albania',
-#     'area': 28748,
-#     'country_code2': 'AL',
-#     'country_code3': 'ALB'},
-#     {'name': 'Algeria',
-#     'area': 2381741,
-#     'country_code2': 'DZ',
-#     'country_code3': 'DZA'},
-#     {'name': 'American Samoa',
-#     'area': 199,
-#     'country_code2': 'AS',
-#     'country_code3': 'ASM'}
-# ]
-with open('user_data/'+x+'.csv', 'a', encoding='UTF8', newline='') as f:
+
+with open('user_data/'+x+'.csv', 'w', encoding='UTF8', newline='') as f:
     writer = csv.DictWriter(f, fieldnames=keys)
     writer.writeheader()    # add column names in the CSV file
     writer.writerows(rows)
@@ -74,15 +62,30 @@ with open('user_data/'+x+'.csv', 'a', encoding='UTF8', newline='') as f:
 #     for row in reader:
 #         print(row)
 
-
+memprofile = []
+hold_p = []
+test_pass =[]
 
 with open('user_data/'+x+'.csv', encoding="utf8") as f:
     csv_reader = csv.reader(f)
-    for line_no, line in enumerate(csv_reader, 100):
-        print(line_no)
+    print(csv_reader)
+    for line_no, line in enumerate(csv_reader, 1):
+        
+        # print(line_no)
+        # print(line) 
         if line_no == 1:
             print('Header:')
-            print(line)  # header
+            # print(line[0:5])  # header
+            # memprofile = line[0:5]
+            # print(memprofile)
             print('Data:')
+        elif line_no == 2:
+            hold_p = line[5]
+            test_pass.append(line[6:11:2])
+            print(type(hold_p))
+
         else:
-            print(line) 
+            test_pass.append(line[6:11:2])
+            # print(line) 
+        # print("test pass")
+        # print(test_pass)
