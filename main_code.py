@@ -3,6 +3,7 @@ from os import path, read
 import os
 from tkinter.constants import E
 import pygame as pg
+from pygame.draw import rect
 from object import Text, Button,InputBox
 import time
 # from tkinter import *
@@ -11,6 +12,8 @@ import shutil
 import cv2
 import upload_pic as ulp
 from function import resize,pic
+import face_recognition as face
+import numpy as np
 import csv
 ### init ###################################################################################################
 pg.init()
@@ -83,17 +86,21 @@ next_test_btn = Button(1200,100,63,63)
 correct_btn = Button(800,250,400,400)
 
 ### variables #############################################################################################
-wrong =[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+
 click = 0
 regis_click = 0
+progress_percent = 0.00
+progress_point = 0
+
+#list
+wrong =[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 input_registor = [surname_register,firstname_register,nickname_register,username_register]
 input_boxes = [distance_box]
 Article = [0,0] # no.Article , check change Article
 
-
 memprofile = []    # 'username', 'firstname', 'surname', 'nickname','type_of_pic'
 hold_p = []        # 'animal_hold_p','classroom_hold_p','food_hold_p'
-test_pass =[]      # 'animal_pass','classroom_pass','food_pass'
+test_pass =['','','']      # 'animal_pass','classroom_pass','food_pass'
 
 # state variables
 page = 'start'
@@ -115,8 +122,16 @@ word_test = [] #memprofile , word
 
 # practice_green_btn = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/practice_button.png')
 
-
-
+### face recognition #####################################################################
+capper = True
+txt_member_list = []
+mempicture_list = []
+user_image = []
+user_face_encoding = []
+known_face_encodings = []
+known_face_names = []
+mmmmooo = []
+k = 0
 ### run code ###############################################################################################
 ############################################################################################################
 ############################################################################################################
@@ -133,6 +148,99 @@ while(1):
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit()
+
+##### CODE THIS PAGE END ####################################################################################
+    elif page == 'scan':
+
+        filenames = os.listdir(user_data_path)
+        for filename in filenames:
+            if '.csv' in filename:
+                txt_member_list.append(filename)
+        
+
+        for o in range(len(txt_member_list)):
+            file_name,type_file = txt_member_list[o].split(".")
+
+            user_data_file = open('user_data/'+file_name+'.csv','r', encoding="utf8")
+            reader = csv.reader(user_data_file)
+            for row in reader:
+                memprofile = row[0:5]
+                # hold_p = row[5:8]
+                # test_pass = row[8:11]
+                mempicture_list.append(file_name+"."+memprofile[4])
+            user_data_file.close()
+
+            # file = open(txt_member_list[o],"r")
+            # for i in file:
+            #     a,b,c,d,e,f = i.split(",")
+            #     # memprofile = [a,b,c,d,e,f]
+            #     mempicture_list.append(file_name+"."+e)
+            # file.close()
+        print('txt_member_list')
+        print(txt_member_list)
+        print('mempicture_list')
+        print(mempicture_list)
+        print(len(txt_member_list))
+        #ใบหน้าคนที่ต้องการรู้จำเป็นreference #คนที่1
+
+        for i in range(len(txt_member_list)):
+            # print(mempicture_list[i])
+            file_name,type_file = txt_member_list[i].split(".")
+            # mmmmooo.append(face.load_image_file(str(mempicture_list[i])))
+            # user_face_encoding = face.face_encodings(mmmmooo[i])[0]
+            known_face_encodings.append(face.face_encodings(face.load_image_file("user_data/"+mempicture_list[i]))[0])
+            known_face_names.append(file_name)
+        face_locations = []
+        face_encodings = []
+        face_names = []
+        face_percent = []
+        # print(known_face_encodings)
+        print(known_face_names)
+        video_capture = cv2.VideoCapture(0) 
+        while capper == True:
+            k += 1 
+            print(page,k)
+            ret, frame = video_capture.read()
+            small_frame = cv2.resize(frame, (0,0), fx=0.3,fy=0.3)
+            rgb_small_frame = small_frame[:,:,::-1]
+            face_names = []
+            face_percent = []
+            face_locations = face.face_locations(rgb_small_frame, model="cnn")
+            face_encodings = face.face_encodings(rgb_small_frame, face_locations)
+            for face_encoding in face_encodings:
+                face_distances = face.face_distance(known_face_encodings, face_encoding)
+                best = np.argmin(face_distances)
+                face_percent_value = 1-face_distances[best]
+                if face_percent_value >= 0.5:
+                    name = known_face_names[best]
+                    
+                    filenames = os.listdir(user_data_path)
+                    for filename in filenames:
+                        if name+'.txt' == filename:
+                            user_status = 'have'
+                    if  user_status == 'have' :     
+                        file = open(name+".txt","r")
+                        for i in file:
+                            a,b,c,d,e,f = i.split(",")
+                            memprofile = [a,b,c,d,e,f]
+                        file.close()
+                    capper = False
+                    page = "profile"
+                    print("findddddd")
+            if k >= 5:
+                page = "login"
+                capper = False
+                # face_names.append(name)
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+            # else:
+            #     break
+        video_capture.release()
+        cv2.destroyAllWindows()
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                pg.quit()
+                break
 
 ##### CODE THIS PAGE END ####################################################################################
 
@@ -368,7 +476,10 @@ while(1):
         t3.draw(screen)
         t4.draw(screen)
 
-
+        t_percent = Text(1000,385, 80, "browallianewbold", green, 1, str(progress_percent)) #text username 
+        t_percent.draw(screen)
+        # percent_bar = pg.rect(797,361,int(355*(progress_percent/100)),48)
+        pg.draw.rect(screen,green,(797,361,int(355*(progress_percent/100)),48),1)
 
         if lesson_btn.mouse_on():
             screen.blit(ulp.lesson_green_btn,(597,487))
@@ -453,8 +564,16 @@ while(1):
     elif page =="logout":
         memprofile=[]
         wrong =[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+        page = "start"
         logout_status = 1
-        page = "login"
+        txt_member_list = []
+        mempicture_list = []
+        known_face_encodings = []
+        known_face_names = []
+        txt_member_list = []
+        mempicture_list = []
+        k = 0
+        capper = True
 
 ##### CODE THIS PAGE END ###################################################################################
 
@@ -919,4 +1038,22 @@ while(1):
         pg.display.update()
         for event in pg.event.get():
             if event.type == pg.QUIT:
-                pg.quit() 
+                pg.quit()
+
+    #calculate progress
+    if test_pass[0] != '' or test_pass[1] != '' or test_pass[2] != '':
+        progress_percent = 0.00
+        progress_point = 0
+        for n in range(3):
+            if test_pass[n].find("A") != -1 :
+                progress_point += 1
+            if test_pass[n].find("B") != -1 :
+                progress_point += 1
+            if test_pass[n].find("C") != -1 :
+                progress_point += 1
+            if test_pass[n].find("D") != -1 :
+                progress_point += 1
+            if test_pass[n].find("E") != -1 :
+                progress_point += 1
+        progress_percent = round(((progress_point/15)*100),2)
+            
