@@ -246,7 +246,7 @@ while(1):
                     cv2.imwrite("temp_data/capture.png",frame)
                     take_pic_state = 0
                     newstatus = 1
-#                    C:/fra361_st4_voca_ui/temp_data
+                    # C:/fra361_st4_voca_ui/temp_data
                     filepath = "C:/fra361_st4_voca_ui/temp_data/capture.png"
                     takephoto.release()
                     cv2.destroyAllWindows()

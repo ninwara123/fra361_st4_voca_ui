@@ -6,7 +6,6 @@ import pygame as pg
 from pygame.draw import rect
 from object import Text, Button,InputBox
 import time
-# from tkinter import *
 from tkinter import filedialog, mainloop
 import shutil
 import cv2
@@ -15,6 +14,7 @@ from function import resize,pic
 import face_recognition as face
 import numpy as np
 import csv
+
 ### init ###################################################################################################
 pg.init()
 win_x, win_y = 1280, 720
@@ -136,10 +136,14 @@ k = 0
 ############################################################################################################
 ############################################################################################################
 ############################################################################################################
-while(1):
 
+
+
+while(1):
+    
     (pos_x, pos_y) = pg.mouse.get_pos()
 
+##### CODE START PAGE #######################################################################################
     if page == 'start':
         screen.blit(ulp.first_page,(0,0))
         pg.display.update()
@@ -149,7 +153,7 @@ while(1):
             if event.type == pg.QUIT:
                 pg.quit()
 
-##### CODE THIS PAGE END ####################################################################################
+##### CODE SCAN PAGE #########################################################################################
     elif page == 'scan':
 
         filenames = os.listdir(user_data_path)
@@ -242,7 +246,7 @@ while(1):
                 pg.quit()
                 break
 
-##### CODE THIS PAGE END ####################################################################################
+##### CODE LOGIN PAGE ########################################################################################
 
     elif page == 'login':
         screen.blit(ulp.login_page, (0,0))
@@ -320,7 +324,7 @@ while(1):
             if event.type == pg.QUIT:
                 pg.quit()
 
-##### CODE THIS PAGE END ####################################################################################
+##### CODE REGISTER PAGE #####################################################################################
     
     elif page == 'register':
         screen.blit(ulp.register_page, (0,0))
@@ -457,7 +461,7 @@ while(1):
             if event.type == pg.QUIT:
                 pg.quit()
 
-##### CODE THIS PAGE END ####################################################################################
+##### CODE PROFILE PAGE ######################################################################################
 
     elif page == "profile" :
         # print("profile")
@@ -476,11 +480,11 @@ while(1):
         t3.draw(screen)
         t4.draw(screen)
 
-        t_percent = Text(1000,385, 80, "browallianewbold", green, 1, str(progress_percent)) #text username 
-        t_percent.draw(screen)
+        
         # percent_bar = pg.rect(797,361,int(355*(progress_percent/100)),48)
-        pg.draw.rect(screen,green,(797,361,int(355*(progress_percent/100)),48),1)
-
+        pg.draw.rect(screen,green,(797,361,int(355*(progress_percent/100)),48))
+        t_percent = Text(935,370, 45 , "browallianewbold", black, 1, str(progress_percent)) #text username 
+        t_percent.draw(screen)
         if lesson_btn.mouse_on():
             screen.blit(ulp.lesson_green_btn,(597,487))
             if pg.mouse.get_pressed()[0] == 1:
@@ -516,7 +520,7 @@ while(1):
             if event.type == pg.QUIT:
                 pg.quit()
 
-##### CODE THIS PAGE END ###################################################################################
+##### CODE SETTING PAGE ######################################################################################
 
     elif page =="setting" :
         (pos_x, pos_y) = pg.mouse.get_pos() # ถ้าเม้ากดยังจุดใดก็ตามที่ไม่ใช้ในกล่อง setting ให้กลับไปยัง state ก่อนหน้า like : pop-up
@@ -561,6 +565,8 @@ while(1):
             if event.type == pg.QUIT:
                 pg.quit()
 
+##### CODE LOGOUT PAGE #######################################################################################
+
     elif page =="logout":
         memprofile=[]
         wrong =[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
@@ -575,7 +581,7 @@ while(1):
         k = 0
         capper = True
 
-##### CODE THIS PAGE END ###################################################################################
+##### CODE EDIT_PROFILE PAGE #################################################################################
 
     elif page == "edit_profile":  
         
@@ -684,8 +690,7 @@ while(1):
             if event.type == pg.QUIT:
                 pg.quit() 
 
-
-##### CODE THIS PAGE END ####################################################################################
+##### CODE LESSON PAGE #######################################################################################
 
     elif page == 'lesson':
         screen.blit(ulp.lesson_page, (0,0))
@@ -848,7 +853,7 @@ while(1):
             if event.type == pg.QUIT:
                 pg.quit() 
 
-##### CODE THIS PAGE END ###################################################################################
+##### CODE PRACTICE PAGE #####################################################################################
 
     elif page == 'practice':
         screen.blit(ulp.practice_page, (0,0))
@@ -1040,6 +1045,7 @@ while(1):
             if event.type == pg.QUIT:
                 pg.quit()
 
+##### CALCULATE PERCENT PROGRESS #############################################################################
     #calculate progress
     if test_pass[0] != '' or test_pass[1] != '' or test_pass[2] != '':
         progress_percent = 0.00
