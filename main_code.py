@@ -102,8 +102,8 @@ input_registor = [surname_register,firstname_register,nickname_register,username
 input_boxes = [distance_box]
 Article = [0,0] # no.Article , check change Article
 
-memprofile = []    # 'username', 'firstname', 'surname', 'nickname','type_of_pic'
-hold_p = []        # 'animal_hold_p','classroom_hold_p','food_hold_p'
+memprofile = []            # 'username', 'firstname', 'surname', 'nickname','type_of_pic'
+hold_p = []                # 'animal_hold_p','classroom_hold_p','food_hold_p'
 test_pass =['','','']      # 'animal_pass','classroom_pass','food_pass'
 
 # state variables
@@ -384,7 +384,7 @@ while(1):
                     take_pic_state = 0
                     newstatus = 1
                 # C:/fra361_st4_voca_ui/temp_data
-                    filepath = "C:/fra361_st4_voca_ui/temp_data/capture.png"
+                    filepath = project_path+'/temp_data/capture.png'
                     takephoto.release()
                     cv2.destroyAllWindows()
             if add_pic.mouse_on():  #กดถ่ายรูปแล้ว upload รูป
@@ -491,7 +491,7 @@ while(1):
         userFullName = userFirstName+"  "+userSurName
         t3 = Text(743, 216, 45, "browallianewbold", (0,0,0), 1, userFullName)
         t4 = Text(810, 294, 45, "browallianewbold", (0,0,0), 1, userNickName)
-        filepath = 'C:/fra361_st4_voca_ui/user_data/'+str(memprofile[0])+"."+str(memprofile[4])
+        filepath = user_data_path+'/'+str(memprofile[0])+"."+str(memprofile[4])
         pic_show_data = pic(filepath,400,440)
 
         screen.blit(pg.transform.scale(pic_show_data[4],(pic_show_data[0],pic_show_data[1])),(85+pic_show_data[2],155+pic_show_data[3])) 
@@ -511,11 +511,10 @@ while(1):
                 page = "lesson"
                 click =0
         if practice_btn.mouse_on():
-            # screen.blit(ulp.p_g_b(904,487))
-            # screen.blit(ulp.practice_green_btn(904,487))
+            screen.blit(ulp.practice_green_btn,(904,487))
             if pg.mouse.get_pressed()[0] == 1:
                 click = 1
-            if pg.mouse.get_pressed()[0] == 0 and click ==1:
+            elif pg.mouse.get_pressed()[0] == 0 and click ==1:
                 page = 'practice'
                 click =0
         ####################################################################################################################### 

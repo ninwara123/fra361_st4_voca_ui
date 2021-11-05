@@ -32,8 +32,6 @@ defualt_user_pic_path = ui_pic_path+'/defualt_profile.png'
 #profile
 profile_page = pg.image.load(ui_pic_path+'/home_page.jpg')
 lesson_green_btn = pg.image.load(ui_pic_path+'/lesson_button.png')
-practice_green_btn = pg.image.load(ui_pic_path+'/lesson_button.png')
-# p_g_b = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/practice_button.png')
 practice_green_btn = pg.image.load(ui_pic_path+'/practice_button.png')
 
 all_setting_btn = pg.image.load(ui_pic_path+'/all.png')
