@@ -97,6 +97,7 @@ progress_percent = 0.00
 progress_point = 0
 
 #list
+
 wrong =[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 input_registor = [surname_register,firstname_register,nickname_register,username_register]
 input_boxes = [distance_box]
@@ -105,6 +106,7 @@ Article = [0,0] # no.Article , check change Article
 memprofile = []            # 'username', 'firstname', 'surname', 'nickname','type_of_pic'
 hold_p = []                # 'animal_hold_p','classroom_hold_p','food_hold_p'
 test_pass =['','','']      # 'animal_pass','classroom_pass','food_pass'
+csv_member_list = []
 
 # state variables
 page = 'start'
@@ -402,7 +404,18 @@ while(1):
                     add_pic_state = 0 
                 else:
                     add_pic_state = 0  
-
+        filenames = os.listdir(user_data_path)
+        for filename in filenames:
+            if '.csv' in filename:
+                x1,x2 = filename.split(".")
+                csv_member_list.append(x1)
+        if username_register.text in csv_member_list:
+            wrong[3] = 1
+        if username_register.text not in csv_member_list:
+            wrong[3] = 0
+        if wrong[3] == 1:
+            t1 = Text(740, 100, 30, "browallianewbold", red, 1, 'Username is already used') #text username 
+            t1.draw(screen)
         if newstatus == 1: #เปลงไฟลภาพให้พอดีกับกรอบรูป ##function
             image = cv2.imread(filepath)
             Profile_pic = pg.image.load(filepath)
@@ -424,15 +437,15 @@ while(1):
         if regis_sub_btn.mouse_on(): #กดปุ่ม register ทำการสร้างไฟล์ ข้อมูลของแต่ละ User
             screen.blit(ulp.register_green_btn, (823,533)) #600, 680, 260, 80
             if pg.mouse.get_pressed()[0] == 1:  # button get click
-                wrong[1] = 0
-                wrong[3] = 0 
-                filenames = os.listdir(user_data_path)
-                for filename in filenames:
-                    if username_register.text+'.csv' == filename:
-                        # r_btn_status = False
-                        wrong[3] = 1
-                    # else:
-                    #     wrong[3] = 0
+                # wrong[1] = 0
+                # wrong[3] = 0 
+                # filenames = os.listdir(user_data_path)
+                # for filename in filenames:
+                #     if username_register.text+'.csv' == filename:
+                #         # r_btn_status = False
+                #         wrong[3] = 1
+                #     # else:
+                #     #     wrong[3] = 0
                 if r_btn_status == True and wrong[3] == 0 :
                     if newstatus ==1:
                         newpath = shutil.copy(filepath,"user_data")
@@ -482,10 +495,10 @@ while(1):
         if wrong[1] == 1: #ติดปัญหาเด้งขึ้น
             t1 = Text(800-6,503, 30, "browallianewbold", (255,101,101), 1, 'Please enter all information')
             t1.draw(screen)
-        elif wrong[3] == 1: #ติดปัญหาเด้งขึ้น
-            # t1 = ''
-            t1 = Text(800-6,503, 30, "browallianewbold", (255,101,101), 1, 'Username is already used')
-            t1.draw(screen)
+        # elif wrong[3] == 1: #ติดปัญหาเด้งขึ้น
+        #     # t1 = ''
+        #     t1 = Text(800-6,503, 30, "browallianewbold", (255,101,101), 1, 'Username is already used')
+        #     t1.draw(screen)
 
 
         for box in input_registor: 
@@ -670,7 +683,7 @@ while(1):
                     row = [memprofile[0], firstname_register1.text, surname_register1.text, nickname_register1.text,memprofile[4],
                             hold_p[0],hold_p[1],hold_p[2],test_pass[0],test_pass[1],test_pass[2]]
 
-                    user_data_file = open('user_data/'+user_file_name+'.csv','r+', encoding='UTF8', newline='') 
+                    user_data_file = open('user_data/'+user_file_name+'.csv','w', encoding='UTF8', newline='') 
                     writer = csv.writer(user_data_file)
                     writer.writerow(row)
                     user_data_file.close()
