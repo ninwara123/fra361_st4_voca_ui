@@ -359,13 +359,15 @@ while(1):
                 page = "login"
                 click =0
 
-        if username_register.text == '  '  or firstname_register.text == '  ' \
-            or surname_register.text == '  ' or nickname_register== '  ':
+        if username_register.text == '  '  or firstname_register.text == '  ' or surname_register.text == '  ' or nickname_register== '  ':
                 r_btn_status = False
+
+
         if username_register.text != '  ' and firstname_register.text != '  ' \
             and surname_register.text != '  ' and nickname_register!= '  ':
             r_btn_status = True
             wrong[1] = 0
+            wrong[3] = 0
 
 
 
@@ -422,7 +424,16 @@ while(1):
         if regis_sub_btn.mouse_on(): #กดปุ่ม register ทำการสร้างไฟล์ ข้อมูลของแต่ละ User
             screen.blit(ulp.register_green_btn, (823,533)) #600, 680, 260, 80
             if pg.mouse.get_pressed()[0] == 1:  # button get click
-                if r_btn_status == True :
+                wrong[1] = 0
+                wrong[3] = 0 
+                filenames = os.listdir(user_data_path)
+                for filename in filenames:
+                    if username_register.text+'.csv' == filename:
+                        # r_btn_status = False
+                        wrong[3] = 1
+                    # else:
+                    #     wrong[3] = 0
+                if r_btn_status == True and wrong[3] == 0 :
                     if newstatus ==1:
                         newpath = shutil.copy(filepath,"user_data")
                         not_use , typefi = newpath.split(".")
@@ -452,21 +463,28 @@ while(1):
                     if newstatus == 0:
                         os.rename(newpath,'user_data/'+username_register.text+'.png') 
 
-                    for n in range (len(input_registor)):
-                            input_registor[n].text = "  "
-                            input_registor[n].txt_surface = input_registor[n].font.render(input_registor[n].text, True, pg.Color("black"))
+                   
                     newstatus = 0
                     re_pic = 0
                     click = 1
-                    # wrong[1] == 0
+                    # wrong[1] = 0
+
                 if r_btn_status == False:
                     wrong[1] = 1
             if pg.mouse.get_pressed()[0] == 0 and click ==1:
+                for n in range (len(input_registor)):
+                    input_registor[n].text = "  "
+                    input_registor[n].txt_surface = input_registor[n].font.render(input_registor[n].text, True, pg.Color("black"))
+
                 page = "login"
                 click =0
 
         if wrong[1] == 1: #ติดปัญหาเด้งขึ้น
             t1 = Text(800-6,503, 30, "browallianewbold", (255,101,101), 1, 'Please enter all information')
+            t1.draw(screen)
+        elif wrong[3] == 1: #ติดปัญหาเด้งขึ้น
+            # t1 = ''
+            t1 = Text(800-6,503, 30, "browallianewbold", (255,101,101), 1, 'Username is already used')
             t1.draw(screen)
 
 
