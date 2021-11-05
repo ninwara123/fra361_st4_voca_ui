@@ -1,3 +1,6 @@
+# project_path = 'C:/fra361_st4_voca_ui'
+project_path = 'C:/fra361_st4_voca_ui'
+
 # from os import name
 from os import path, read
 import os
@@ -113,7 +116,8 @@ pass_test_flag = 0
 mark_pass = ''
 #path
 filepath = ""
-user_data_path = 'C:/fra361_st4_voca_ui/user_data'
+# user_data_path = 'C:/fra361_st4_voca_ui/user_data'
+user_data_path = project_path +'/user_data'
 
 #words
 animal_word_pack = [0,['Turtle','Starfish','Octopus','Jellyfish','Seahorse']]
@@ -129,7 +133,7 @@ animal_boxes = [type_test_inputbox]
 animal_key_check_button = Button(1000,600,280,120)
 animal_key_check_i = 0
 
-# practice_green_btn = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/practice_button.png')
+
 
 ### face recognition #####################################################################
 capper = True
@@ -285,7 +289,7 @@ while(1):
             screen.blit(ulp.login_green_btn, (969, 388))
             if pg.mouse.get_pressed()[0] == 1 or enter_press == 1:  # button get click
                 enter_press = 0
-        
+
                 if login_btn_status is True:  # เพิ่มกรณีที่ไม่มีไฟล์ด้วย 
                     wrong[2] = 0
                     
@@ -1006,9 +1010,6 @@ while(1):
             type_test_inputbox.text = "  "
             type_test_inputbox.txt_surface = type_test_inputbox.font.render(type_test_inputbox.text, True, pg.Color("black"))
 
-            
-
-        
         for box in animal_boxes:
             box.draw(screen)
 
