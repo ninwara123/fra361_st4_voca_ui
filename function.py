@@ -1,7 +1,7 @@
 import pygame as pg
 import cv2
 
-file = open("lol.txt","w")
+# file = open("lol.txt","w")
 
 
 def resize(Profile_pic):

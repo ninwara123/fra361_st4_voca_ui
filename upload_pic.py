@@ -3,10 +3,10 @@ from tkinter.filedialog import test
 import pygame as pg
 
 #### my path  'C:/fra361_st4_voca_ui/ui_photo/
-# my_ui_pic_path = 'C:/fra361_st4_voca_ui/ui_photo/'
+my_ui_pic_path = 'C:/fra361_st4_voca_ui/ui_photo/'
 
 
-first_page = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/first_page.jpg')
+first_page = pg.image.load(my_ui_pic_path+'first_page.jpg')
 #login
 login_page = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/login_page.jpg')
 login_green_btn = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/new_login_button.png')
@@ -64,11 +64,28 @@ food_lesson_page = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/food_lesson_pag
 practice_page =  pg.image.load('C:/fra361_st4_voca_ui/ui_photo/practice_page.jpg')
 
 #practice_page
-test_page = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/animal_pract_1.jpg')
+test_page = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/practice_in.jpg')
 correct_icon = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/correct.jpg')
 
-
-
+animal_test_pic_1 = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/animal_pic/animal_test_1.jpg')
+animal_test_pic_2 = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/animal_pic/animal_test_2.jpg')
+animal_test_pic_3 = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/animal_pic/animal_test_3.jpg')
+# animal_test_pic_4 = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/animal_pic/animal_test_4.jpg')
+# animal_test_pic_5 = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/animal_pic/animal_test_5.jpg')
+# classroom_test_pic_1 = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/animal_pic/classroom_1.jpg')
+# classroom_test_pic_2 = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/animal_pic/classroom_2.jpg')
+# classroom_test_pic_3 = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/animal_pic/classroom_3.jpg')
+# # classroom_pic_4 = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/animal_pic/classroom_4.jpg')
+# # classroom_pic_5 = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/animal_pic/classroom_5.jpg')
+# food_test_pic_1 = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/animal_pic/food_test_1.jpg')
+# food_test_pic_2 = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/animal_pic/food_test_2.jpg')
+# food_test_pic_3 = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/animal_pic/food_test_3.jpg')
+# food_test_pic_4 = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/animal_pic/animal_test_4.jpg')
+# food_test_pic_5 = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/animal_pic/animal_test_5.jpg')
+animal_list_test_pic = [animal_test_pic_1,animal_test_pic_2,animal_test_pic_3,animal_test_pic_1,animal_test_pic_2]
+# classroom_list_test_pic = [classroom_test_pic_1,classroom_test_pic_2,classroom_test_pic_3,classroom_test_pic_4,classroom_test_pic_5]
+# food_list_test_pic = [food_test_pic_1,food_test_pic_2,food_test_pic_3,food_test_pic_4,food_test_pic_5]
+pic_i_test_object = [animal_list_test_pic,animal_list_test_pic,animal_list_test_pic]
 
 
 

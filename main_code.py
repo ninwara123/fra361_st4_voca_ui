@@ -86,9 +86,10 @@ next_test_btn = Button(1200,100,63,63)
 correct_btn = Button(800,250,400,400)
 
 ### variables #############################################################################################
-
+enter_press = 0
 click = 0
 regis_click = 0
+login_click = 0
 progress_percent = 0.00
 progress_point = 0
 
@@ -118,7 +119,15 @@ user_data_path = 'C:/fra361_st4_voca_ui/user_data'
 animal_word_pack = [0,['Turtle','Starfish','Octopus','Jellyfish','Seahorse']]
 classroon_word_pack  =  [1,['Calculator','Calendar','Magnifying Glass','Notice Board','Scissors']]
 food_word_pack =  [2,['Noodle','Spaghetti','Cookies','Croissant','Lamonade']]
-word_test = [] #memprofile , word 
+word_test = [] #no.set , word 
+
+
+
+#test 
+type_test_inputbox = InputBox(340,510,600,80,60,6)
+animal_boxes = [type_test_inputbox]
+animal_key_check_button = Button(1000,600,280,120)
+animal_key_check_i = 0
 
 # practice_green_btn = pg.image.load('C:/fra361_st4_voca_ui/ui_photo/practice_button.png')
 
@@ -272,9 +281,11 @@ while(1):
             wrong[2] = 0
             login_btn_status = True
         
-        if login_btn.mouse_on():
+        if login_btn.mouse_on() or enter_press == 1:
             screen.blit(ulp.login_green_btn, (969, 388))
-            if pg.mouse.get_pressed()[0] == 1:  # button get click
+            if pg.mouse.get_pressed()[0] == 1 or enter_press == 1:  # button get click
+                enter_press = 0
+        
                 if login_btn_status is True:  # เพิ่มกรณีที่ไม่มีไฟล์ด้วย 
                     wrong[2] = 0
                     
@@ -319,6 +330,9 @@ while(1):
 
         pg.display.update()
         for event in pg.event.get():
+            if event.type == pg.KEYDOWN:    
+                if event.key == pg.K_RETURN:    
+                    enter_press = 1 
             for box in input_boxes:
                 box.handle_event(event)
             if event.type == pg.QUIT:
@@ -968,6 +982,37 @@ while(1):
                     Article[0] += 1
                     
                     click =0
+
+        screen.blit(ulp.pic_i_test_object[word_test[0]][Article[0]],(528,165))
+
+        # if animal_key_check_button.mouse_on() and pg.mouse.get_pressed()[0] == 1 and type_test_inputbox.text != "  "+word_test[1][Article[0]] :
+        if enter_press == 1:
+            # if type_test_inputbox.text != "  "+word_test[1][Article[0]]:
+            # #     print(type_test_inputbox.text)
+            # #     type_test_inputbox.text = "  "
+            # #     type_test_inputbox.txt_surface = type_test_inputbox.font.render(type_test_inputbox.text, True, pg.Color("black"))
+            # #     print(word_test[1][Article[0]])
+            #     print("wrong answer")
+
+        # if animal_key_check_button.mouse_on() and pg.mouse.get_pressed()[0] == 1 and type_test_inputbox.text == "  "+word_test[1][Article[0]] :
+            if type_test_inputbox.text == "  "+word_test[1][Article[0]]:
+                print("true answer")
+                Article[1] = 1
+                pass_test_flag = 1  
+
+            else :
+                print("wrong answer")
+            enter_press = 0
+            type_test_inputbox.text = "  "
+            type_test_inputbox.txt_surface = type_test_inputbox.font.render(type_test_inputbox.text, True, pg.Color("black"))
+
+            
+
+        
+        for box in animal_boxes:
+            box.draw(screen)
+
+
         #save change
         if Article[1] == 1 :
             Article[1] = 0
@@ -977,7 +1022,7 @@ while(1):
             row = [memprofile[0],memprofile[1],memprofile[2],memprofile[3],memprofile[4],
                     hold_p[0],hold_p[1],hold_p[2],test_pass[0],test_pass[1],test_pass[2]]
 
-            user_data_file = open('user_data/'+user_file_name+'.csv','r+', encoding='UTF8', newline='') 
+            user_data_file = open('user_data/'+user_file_name+'.csv','w', encoding='UTF8', newline='') 
             writer = csv.writer(user_data_file)
             writer.writerow(row)
             user_data_file.close()
@@ -997,18 +1042,22 @@ while(1):
             print("test pass")
             print(test_pass)   
 
+
+
         t3 = Text(500,300, 80, "browallianewbold", red, 1, word_test[1][Article[0]]) #text username 
         t3.draw(screen)
 
+
         #for beta
-        screen.blit(ulp.correct_icon,(800,250))
-        if correct_btn.mouse_on():
-            # print("mouse on")
-            if pg.mouse.get_pressed()[0] == 1:
-                click = 1
-            if pg.mouse.get_pressed()[0] == 0 and click ==1:
-                pass_test_flag = 1
-                click =0
+        # screen.blit(ulp.correct_icon,(800,250))
+        # if correct_btn.mouse_on():
+        #     # print("mouse on")
+        #     if pg.mouse.get_pressed()[0] == 1:
+        #         click = 1
+        #     if pg.mouse.get_pressed()[0] == 0 and click ==1:
+        #         pass_test_flag = 1
+        #         click =0
+
         # for point
         if pass_test_flag == 1 :
             Article[1] = 1
@@ -1020,6 +1069,8 @@ while(1):
             elif Article[0] == 4 and test_pass[word_test[0]].find("E") == -1 : mark_pass = "E"
             test_pass[word_test[0]] = test_pass[word_test[0]] + mark_pass
             mark_pass = ''
+            if Article[0] < 4 :
+                Article[0] += 1
 
         if Article[0] == 0 and test_pass[word_test[0]].find("A") != -1 :
             t4 = Text(90,250, 80, "browallianewbold", green, 1, "PASS") 
@@ -1040,26 +1091,39 @@ while(1):
             t4 = Text(90,250, 80, "browallianewbold", green, 1, "")
             t4.draw(screen)
 
+        # pg.display.update()
+        # for event in pg.event.get():
+        #     if event.type == pg.QUIT:
+        #         pg.quit()
+
         pg.display.update()
         for event in pg.event.get():
+            if event.type == pg.KEYDOWN:    
+                if event.key == pg.K_RETURN:    
+                    enter_press = 1 
+            for box in animal_boxes:
+                box.handle_event(event)
             if event.type == pg.QUIT:
-                pg.quit()
+                pg.quit()         
+
+
 
 ##### CALCULATE PERCENT PROGRESS #############################################################################
-    #calculate progress
-    if test_pass[0] != '' or test_pass[1] != '' or test_pass[2] != '':
-        progress_percent = 0.00
-        progress_point = 0
-        for n in range(3):
-            if test_pass[n].find("A") != -1 :
-                progress_point += 1
-            if test_pass[n].find("B") != -1 :
-                progress_point += 1
-            if test_pass[n].find("C") != -1 :
-                progress_point += 1
-            if test_pass[n].find("D") != -1 :
-                progress_point += 1
-            if test_pass[n].find("E") != -1 :
-                progress_point += 1
-        progress_percent = round(((progress_point/15)*100),2)
+    # if test_pass[0] != '' or test_pass[1] != '' or test_pass[2] != '':
+    progress_percent = 0.00
+    progress_point = 0
+    for n in range(3):
+        if test_pass[n].find("A") != -1 :
+            progress_point += 1
+        if test_pass[n].find("B") != -1 :
+            progress_point += 1
+        if test_pass[n].find("C") != -1 :
+            progress_point += 1
+        if test_pass[n].find("D") != -1 :
+            progress_point += 1
+        if test_pass[n].find("E") != -1 :
+            progress_point += 1
+    progress_percent = round(((progress_point/15)*100),2)
             
+    #if event.type==pygame.KEYDOWN:
+    #   if event.key==pygame.K_KP_ENTER:
