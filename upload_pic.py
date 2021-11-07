@@ -74,24 +74,26 @@ animal_test_pic_2 = pg.image.load(ui_pic_path+'/test_pic/animal_test_2.jpg')
 animal_test_pic_3 = pg.image.load(ui_pic_path+'/test_pic/animal_test_3.jpg')
 # animal_test_pic_4 = pg.image.load(ui_pic_path+'/test_pic/animal_test_4.jpg')
 # animal_test_pic_5 = pg.image.load(ui_pic_path+'/test_pic/animal_test_5.jpg')
-# classroom_test_pic_1 = pg.image.load(ui_pic_path+'/test_pic/classroom_1.jpg')
-# classroom_test_pic_2 = pg.image.load(ui_pic_path+'/test_pic/classroom_2.jpg')
-# classroom_test_pic_3 = pg.image.load(ui_pic_path+'/test_pic/classroom_3.jpg')
-# # classroom_pic_4 = pg.image.load(ui_pic_path+'/test_pic/classroom_4.jpg')
-# # classroom_pic_5 = pg.image.load(ui_pic_path+'/test_pic/classroom_5.jpg')
-# food_test_pic_1 = pg.image.load(ui_pic_path+'/test_pic/food_test_1.jpg')
-# food_test_pic_2 = pg.image.load(ui_pic_path+'/test_pic/food_test_2.jpg')
-# food_test_pic_3 = pg.image.load(ui_pic_path+'/test_pic/food_test_3.jpg')
-# food_test_pic_4 = pg.image.load(ui_pic_path+'/test_pic/animal_test_4.jpg')
-# food_test_pic_5 = pg.image.load(ui_pic_path+'/test_pic/animal_test_5.jpg')
+# classroom_test_pic_1 = pg.image.load(ui_pic_path+'/test_pic/classroom_test_1.jpg')
+# classroom_test_pic_2 = pg.image.load(ui_pic_path+'/test_pic/classroom_test_2.jpg')
+# classroom_test_pic_3 = pg.image.load(ui_pic_path+'/test_pic/classroom_test_3.jpg')
+# # classroom_pic_4 = pg.image.load(ui_pic_path+'/test_pic/classroom_test_4.jpg')
+# # classroom_pic_5 = pg.image.load(ui_pic_path+'/test_pic/classroom_test_5.jpg')
+food_test_pic_1 = pg.image.load(ui_pic_path+'/test_pic/food_test_1.png')
+food_test_pic_2 = pg.image.load(ui_pic_path+'/test_pic/food_test_2.png')
+food_test_pic_3 = pg.image.load(ui_pic_path+'/test_pic/food_test_3.png')
+food_test_pic_4 = pg.image.load(ui_pic_path+'/test_pic/food_test_4.png')
+food_test_pic_5 = pg.image.load(ui_pic_path+'/test_pic/food_test_5.png')
 
 animal_list_test_pic = [animal_test_pic_1,animal_test_pic_2,animal_test_pic_3,animal_test_pic_1,animal_test_pic_2]
 # classroom_list_test_pic = [classroom_test_pic_1,classroom_test_pic_2,classroom_test_pic_3,classroom_test_pic_4,classroom_test_pic_5]
-# food_list_test_pic = [food_test_pic_1,food_test_pic_2,food_test_pic_3,food_test_pic_4,food_test_pic_5]
-pic_i_test_object = [animal_list_test_pic,animal_list_test_pic,animal_list_test_pic]
+food_list_test_pic = [food_test_pic_1,food_test_pic_2,food_test_pic_3,food_test_pic_4,food_test_pic_5]
+pic_i_test_object = [animal_list_test_pic,animal_list_test_pic,food_list_test_pic]
 
 
-
+# animal_word_pack = [0,['Turtle','Starfish','Octopus','Jellyfish','Seahorse']]
+# classroon_word_pack  =  [1,['Calculator','Calendar','Magnifying Glass','Notice Board','Scissors']]
+# food_word_pack =  [2,['Omelete','Spaghetti','Cookies','Croissant','Lamonade']]
 
 
 

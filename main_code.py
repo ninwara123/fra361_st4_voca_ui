@@ -101,7 +101,7 @@ progress_point = 0
 wrong =[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 input_registor = [surname_register,firstname_register,nickname_register,username_register]
 input_boxes = [distance_box]
-Article = [0,0] # no.Article , check change Article
+ExamNo = [0,0] # no.ExamNo , check change ExamNo
 
 memprofile = []            # 'username', 'firstname', 'surname', 'nickname','type_of_pic'
 hold_p = []                # 'animal_hold_p','classroom_hold_p','food_hold_p'
@@ -124,7 +124,7 @@ user_data_path = project_path +'/user_data'
 #words
 animal_word_pack = [0,['Turtle','Starfish','Octopus','Jellyfish','Seahorse']]
 classroon_word_pack  =  [1,['Calculator','Calendar','Magnifying Glass','Notice Board','Scissors']]
-food_word_pack =  [2,['Noodle','Spaghetti','Cookies','Croissant','Lamonade']]
+food_word_pack =  [2,['Omelete','Spaghetti','Cookies','Croissant','Lamonade']]
 word_test = [] #no.set , word 
 
 
@@ -939,7 +939,7 @@ while(1):
                 
                 page = 'test_practice'
                 word_test = animal_word_pack
-                Article[0] = int(hold_p[word_test[0]])
+                ExamNo[0] = int(hold_p[animal_word_pack[0]])
                 click =0
 
 
@@ -950,7 +950,7 @@ while(1):
             if pg.mouse.get_pressed()[0] == 0 and click ==1:
                 page = 'test_practice'
                 word_test = classroon_word_pack
-                Article[0] = int(hold_p[word_test[0]])
+                ExamNo[0] = int(hold_p[classroon_word_pack[0]])
                 click =0
 
         if food_btn.mouse_on():
@@ -960,7 +960,7 @@ while(1):
             if pg.mouse.get_pressed()[0] == 0 and click ==1:
                 page = 'test_practice'
                 word_test = food_word_pack
-                Article[0] = int(hold_p[word_test[0]])
+                ExamNo[0] = int(hold_p[food_word_pack[0]])
                 click =0
 
         pg.display.update()
@@ -997,57 +997,82 @@ while(1):
                 back_page_state = "test_practice"
                 click =0
 
-        if Article[0] > 0:
+        if ExamNo[0] > 0:
             if back_test_btn.mouse_on():
                 if pg.mouse.get_pressed()[0] == 1:
                     click = 1
                 if pg.mouse.get_pressed()[0] == 0 and click ==1:
-                    Article[1] = 1
-                    Article[0] -= 1
+                    ExamNo[1] = 1
+                    ExamNo[0] -= 1
                     
                     click =0
-        if Article[0] < 4:
+        if ExamNo[0] < 4:
             if next_test_btn.mouse_on():
                 if pg.mouse.get_pressed()[0] == 1:
                     click = 1
                 if pg.mouse.get_pressed()[0] == 0 and click ==1:
                     
-                    Article[1] = 1
-                    Article[0] += 1
+                    ExamNo[1] = 1
+                    ExamNo[0] += 1
                     
                     click =0
+        t3 = Text(500,300, 80, "browallianewbold", red, 1, word_test[1][ExamNo[0]]) #text username 
+        t3.draw(screen)
+        screen.blit(ulp.pic_i_test_object[word_test[0]][ExamNo[0]],(490,165))
 
-        screen.blit(ulp.pic_i_test_object[word_test[0]][Article[0]],(528,165))
-
-        # if animal_key_check_button.mouse_on() and pg.mouse.get_pressed()[0] == 1 and type_test_inputbox.text != "  "+word_test[1][Article[0]] :
         if enter_press == 1:
-            # if type_test_inputbox.text != "  "+word_test[1][Article[0]]:
-            # #     print(type_test_inputbox.text)
-            # #     type_test_inputbox.text = "  "
-            # #     type_test_inputbox.txt_surface = type_test_inputbox.font.render(type_test_inputbox.text, True, pg.Color("black"))
-            # #     print(word_test[1][Article[0]])
-            #     print("wrong answer")
-
-        # if animal_key_check_button.mouse_on() and pg.mouse.get_pressed()[0] == 1 and type_test_inputbox.text == "  "+word_test[1][Article[0]] :
-            if type_test_inputbox.text == "  "+word_test[1][Article[0]]:
+            if type_test_inputbox.text == ("  "+word_test[1][ExamNo[0]]) or type_test_inputbox.text == ("  "+word_test[1][ExamNo[0]]).lower() or type_test_inputbox.text == ("  "+word_test[1][ExamNo[0]]).upper():
                 print("true answer")
-                Article[1] = 1
+                ExamNo[1] = 1
                 pass_test_flag = 1  
 
             else :
                 print("wrong answer")
+            print("input answer is :" + type_test_inputbox.text)
+            print("true answer is :" + ("  "+word_test[1][ExamNo[0]])  +(',')+ ("  "+word_test[1][ExamNo[0]]).lower() )#+(',')+ ("  "+word_test[1][ExamNo[0]]).upper())
             enter_press = 0
             type_test_inputbox.text = "  "
             type_test_inputbox.txt_surface = type_test_inputbox.font.render(type_test_inputbox.text, True, pg.Color("black"))
 
         for box in animal_boxes:
             box.draw(screen)
-
-
+        # append check for progress
+        if pass_test_flag == 1 :
+            ExamNo[1] = 1
+            pass_test_flag = 0
+            if ExamNo[0] == 0 and test_pass[word_test[0]].find("A") == -1 : mark_pass = "A"
+            elif ExamNo[0] == 1 and test_pass[word_test[0]].find("B") == -1 : mark_pass = "B"
+            elif ExamNo[0] == 2 and test_pass[word_test[0]].find("C") == -1 : mark_pass = "C"
+            elif ExamNo[0] == 3 and test_pass[word_test[0]].find("D") == -1 : mark_pass = "D"
+            elif ExamNo[0] == 4 and test_pass[word_test[0]].find("E") == -1 : mark_pass = "E"
+            test_pass[word_test[0]] = test_pass[word_test[0]] + mark_pass
+            mark_pass = ''
+            # if ExamNo[0] < 4 :
+            #     ExamNo[0] += 1
+        #print "PASS"
+        if ExamNo[0] == 0 and test_pass[word_test[0]].find("A") != -1 :
+            t4 = Text(90,250, 80, "browallianewbold", green, 1, "PASS") 
+            t4.draw(screen)
+        elif ExamNo[0] == 1 and test_pass[word_test[0]].find("B") != -1 :
+            t4 = Text(90,250, 80, "browallianewbold", green, 1, "PASS") 
+            t4.draw(screen)
+        elif ExamNo[0] == 2 and test_pass[word_test[0]].find("C") != -1 :
+            t4 = Text(90,250, 80, "browallianewbold", green, 1, "PASS") 
+            t4.draw(screen)
+        elif ExamNo[0] == 3 and test_pass[word_test[0]].find("D") != -1 :
+            t4 = Text(90,250, 80, "browallianewbold", green, 1, "PASS") 
+            t4.draw(screen)
+        elif ExamNo[0] == 4 and test_pass[word_test[0]].find("E") != -1 :
+            t4 = Text(90,250, 80, "browallianewbold", green, 1, "PASS") 
+            t4.draw(screen)
+        else :
+            t4 = Text(90,250, 80, "browallianewbold", green, 1, "")
+            t4.draw(screen)
+            
         #save change
-        if Article[1] == 1 :
-            Article[1] = 0
-            hold_p[word_test[0]] = str(Article[0])
+        if ExamNo[1] == 1 :
+            ExamNo[1] = 0
+            hold_p[word_test[0]] = str(ExamNo[0])
             
             user_file_name = memprofile[0]
             row = [memprofile[0],memprofile[1],memprofile[2],memprofile[3],memprofile[4],
@@ -1073,54 +1098,7 @@ while(1):
             print("test pass")
             print(test_pass)   
 
-
-
-        t3 = Text(500,300, 80, "browallianewbold", red, 1, word_test[1][Article[0]]) #text username 
-        t3.draw(screen)
-
-
-        #for beta
-        # screen.blit(ulp.correct_icon,(800,250))
-        # if correct_btn.mouse_on():
-        #     # print("mouse on")
-        #     if pg.mouse.get_pressed()[0] == 1:
-        #         click = 1
-        #     if pg.mouse.get_pressed()[0] == 0 and click ==1:
-        #         pass_test_flag = 1
-        #         click =0
-
-        # for point
-        if pass_test_flag == 1 :
-            Article[1] = 1
-            pass_test_flag = 0
-            if Article[0] == 0 and test_pass[word_test[0]].find("A") == -1 : mark_pass = "A"
-            elif Article[0] == 1 and test_pass[word_test[0]].find("B") == -1 : mark_pass = "B"
-            elif Article[0] == 2 and test_pass[word_test[0]].find("C") == -1 : mark_pass = "C"
-            elif Article[0] == 3 and test_pass[word_test[0]].find("D") == -1 : mark_pass = "D"
-            elif Article[0] == 4 and test_pass[word_test[0]].find("E") == -1 : mark_pass = "E"
-            test_pass[word_test[0]] = test_pass[word_test[0]] + mark_pass
-            mark_pass = ''
-            if Article[0] < 4 :
-                Article[0] += 1
-
-        if Article[0] == 0 and test_pass[word_test[0]].find("A") != -1 :
-            t4 = Text(90,250, 80, "browallianewbold", green, 1, "PASS") 
-            t4.draw(screen)
-        elif Article[0] == 1 and test_pass[word_test[0]].find("B") != -1 :
-            t4 = Text(90,250, 80, "browallianewbold", green, 1, "PASS") 
-            t4.draw(screen)
-        elif Article[0] == 2 and test_pass[word_test[0]].find("C") != -1 :
-            t4 = Text(90,250, 80, "browallianewbold", green, 1, "PASS") 
-            t4.draw(screen)
-        elif Article[0] == 3 and test_pass[word_test[0]].find("D") != -1 :
-            t4 = Text(90,250, 80, "browallianewbold", green, 1, "PASS") 
-            t4.draw(screen)
-        elif Article[0] == 4 and test_pass[word_test[0]].find("E") != -1 :
-            t4 = Text(90,250, 80, "browallianewbold", green, 1, "PASS") 
-            t4.draw(screen)
-        else :
-            t4 = Text(90,250, 80, "browallianewbold", green, 1, "")
-            t4.draw(screen)
+        
 
         # pg.display.update()
         # for event in pg.event.get():
