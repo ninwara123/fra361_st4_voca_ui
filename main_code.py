@@ -163,7 +163,7 @@ while(1):
         screen.blit(ulp.first_page,(0,0))
         pg.display.update()
         pg.time.delay(2000)
-        page = 'login'
+        page = 'scan'
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit()
