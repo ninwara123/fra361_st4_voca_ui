@@ -297,33 +297,22 @@ while(1):
 
                 if login_btn_status is True:  # เพิ่มกรณีที่ไม่มีไฟล์ด้วย 
                     wrong[2] = 0
-                    
-                    filenames = os.listdir(user_data_path)
 
-                    for filename in filenames:
-                        if distance_box.text+'.csv' == filename:
-                            user_status = 'have'
-                    if  user_status == 'have' : 
+
+                    if  u1.SerchLogin(distance_box.text) == 'have' : 
                         click = 1    
                         memprofile,hold_p,test_pass = u1.ReadData(distance_box.text)
-                        # user_data_file = open('user_data/'+distance_box.text+'.csv','r', encoding="utf8")
+                    else :  
+                        wrong[2] = 1
 
-                        # reader = csv.reader(user_data_file)
-                        # for row in reader:
-                        #     memprofile = row[0:5]
-                        #     hold_p = row[5:8]
-                        #     test_pass = row[8:11]
-                        # user_data_file.close()
                     print('memprofile')
                     print(memprofile)
                     print("hold_p")
                     print(hold_p)
                     print("test pass")
-                    print(test_pass)        
-                    # page = 'profile'
-                    if user_status == 'nohave' :  
-                        wrong[2] = 1
-                    
+                    print(test_pass)  
+                    print('wrong[2]')    
+                    print(wrong[2])
                 if distance_box.text == '  ':
                     wrong[2] = 1 
                     please = True  # get error message
@@ -1097,7 +1086,7 @@ while(1):
             #     test_pass = row[8:11]
             # user_data_file.close()
             memprofile,hold_p,test_pass = u1.ReadData(memprofile[0])
-            
+
             print('memprofile')
             print(memprofile)
             print("hold_p")

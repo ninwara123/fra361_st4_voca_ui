@@ -117,52 +117,9 @@ class InputBox:
     
 
 import csv
-
-# class user():
-#     def __init__(self,username,firstname,surname,nickname,typepic,ishuman,hold_p_1,hold_p_2,hold_p_3,pass_1,pass_2,pass_3):
-#         # self.filepath = filepath
-#         self.memprofile = [username,firstname,surname,nickname,typepic,ishuman]
-#         self.hold_p = [hold_p_1,hold_p_2,hold_p_3]
-#         self.test_pass = [pass_1,pass_2,pass_3]
-#         print(self.memprofile)
-#         print(self.hold_p)
-#         print(self.test_pass)
-#         # self.username = username
-
-#         # self.firstname = firstname
-#         # self.surname = surname
-#         # self.nickname = nickname
-#         # self.typepic = typepic
-#         # self.ishuman = ishuman
-#         # self.hold_p_1 = hold_p_1
-#         # self.hold_p_2 = hold_p_2
-#         # self.hold_p_3 = hold_p_3
-#         # self.pass_1 = pass_1
-#         # self.pass_2 = pass_2
-#         # self.pass_3 = pass_3
-#     def WriteData(self):
-#         row = []
-#         row = row+self.memprofile+self.hold_p+self.test_pass
-#         print(row)
-#         # row = row.append(self.hold_p)
-#         # row = row.append(self.test_pass)
-#         user_data_file = open('user_data/'+self.memprofile[0]+'.csv','w', encoding='UTF8', newline='') 
-#         writer = csv.writer(user_data_file)
-#         writer.writerow(row)
-#         user_data_file.close()
-#         pass
-#     def ReadData(self,username):
-#         user_data_file = open('user_data/'+username+'.csv','r', encoding="utf8")
-#         reader = csv.reader(user_data_file)
-#         for row in reader:
-#             self.memprofile = row[0:5]
-#             self.hold_p = row[5:8]
-#             self.test_pass = row[8:11]
-#         user_data_file.close()
-#         return row
-
-
-
+import os
+project_path = 'C:/fra361_st4_voca_ui'
+user_data_path = project_path +'/user_data'
 
 class user():
     # def __init__(self,username,firstname,surname,nickname,typepic,ishuman,hold_p_1,hold_p_2,hold_p_3,pass_1,pass_2,pass_3):
@@ -227,3 +184,17 @@ class user():
         self.pass_3 = self.test_pass[2]
         self.fullname = self.firstname+' '+self.surname
         return self.memprofile ,self.hold_p ,self.test_pass
+
+    def SerchLogin(self,username):
+        filenames = os.listdir(user_data_path)
+
+        for filename in filenames:
+            if username+'.csv' == filename:
+                user_status = 'have'
+                print(user_status)
+                return user_status
+            else:
+                user_status = 'nohave'
+                print(user_status)
+            
+        return user_status
