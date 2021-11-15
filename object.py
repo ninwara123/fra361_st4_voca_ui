@@ -116,5 +116,114 @@ class InputBox:
         pg.draw.rect(screen, self.color, self.rect, 2)
     
 
-    
+import csv
 
+# class user():
+#     def __init__(self,username,firstname,surname,nickname,typepic,ishuman,hold_p_1,hold_p_2,hold_p_3,pass_1,pass_2,pass_3):
+#         # self.filepath = filepath
+#         self.memprofile = [username,firstname,surname,nickname,typepic,ishuman]
+#         self.hold_p = [hold_p_1,hold_p_2,hold_p_3]
+#         self.test_pass = [pass_1,pass_2,pass_3]
+#         print(self.memprofile)
+#         print(self.hold_p)
+#         print(self.test_pass)
+#         # self.username = username
+
+#         # self.firstname = firstname
+#         # self.surname = surname
+#         # self.nickname = nickname
+#         # self.typepic = typepic
+#         # self.ishuman = ishuman
+#         # self.hold_p_1 = hold_p_1
+#         # self.hold_p_2 = hold_p_2
+#         # self.hold_p_3 = hold_p_3
+#         # self.pass_1 = pass_1
+#         # self.pass_2 = pass_2
+#         # self.pass_3 = pass_3
+#     def WriteData(self):
+#         row = []
+#         row = row+self.memprofile+self.hold_p+self.test_pass
+#         print(row)
+#         # row = row.append(self.hold_p)
+#         # row = row.append(self.test_pass)
+#         user_data_file = open('user_data/'+self.memprofile[0]+'.csv','w', encoding='UTF8', newline='') 
+#         writer = csv.writer(user_data_file)
+#         writer.writerow(row)
+#         user_data_file.close()
+#         pass
+#     def ReadData(self,username):
+#         user_data_file = open('user_data/'+username+'.csv','r', encoding="utf8")
+#         reader = csv.reader(user_data_file)
+#         for row in reader:
+#             self.memprofile = row[0:5]
+#             self.hold_p = row[5:8]
+#             self.test_pass = row[8:11]
+#         user_data_file.close()
+#         return row
+
+
+
+
+class user():
+    # def __init__(self,username,firstname,surname,nickname,typepic,ishuman,hold_p_1,hold_p_2,hold_p_3,pass_1,pass_2,pass_3):
+        # self.filepath = filepath
+        # self.memprofile = [username,firstname,surname,nickname,typepic,ishuman]
+        # self.hold_p = [hold_p_1,hold_p_2,hold_p_3]
+        # self.test_pass = [pass_1,pass_2,pass_3]
+        # print(self.memprofile)
+        # print(self.hold_p)
+        # print(self.test_pass)
+    def __init__(self):
+        self.memprofile = []
+        self.hold_p = []
+        self.test_pass = []
+        self.username = ''
+        self.firstname = ''
+        self.surname = ''
+        self.nickname = ''
+        self.typepic = ''
+        self.ishuman = ''
+        self.hold_p_1 = ''
+        self.hold_p_2 = ''
+        self.hold_p_3 = ''
+        self.pass_1 = ''
+        self.pass_2 = ''
+        self.pass_3 = ''
+        self.fullname = self.firstname + self.surname
+
+    def WriteData(self,memprofile,hold_p,test_pass):
+        row = []
+        # row = row+self.memprofile+self.hold_p+self.test_pass
+        row = memprofile + hold_p + test_pass
+        print(row)
+        # row = row.append(self.hold_p)
+        # row = row.append(self.test_pass)
+        user_data_file = open('user_data/'+memprofile[0]+'.csv','w', encoding='UTF8', newline='') 
+        writer = csv.writer(user_data_file)
+        writer.writerow(row)
+        user_data_file.close()
+        pass
+
+    def ReadData(self,username):
+        user_data_file = open('user_data/'+username+'.csv','r', encoding="utf8")
+        reader = csv.reader(user_data_file)
+        for row in reader:
+            self.memprofile = row[0:6]
+            self.hold_p = row[6:9]
+            self.test_pass = row[9:12]        
+        user_data_file.close()
+
+        self.username = self.memprofile[0]
+        self.firstname = self.memprofile[1]
+        self.surname = self.memprofile[2]
+        self.nickname = self.memprofile[3]
+        self.typepic = self.memprofile[4]
+        self.ishuman = self.memprofile[5]
+        self.hold_p_1 = self.hold_p[0]
+        self.hold_p_2 = self.hold_p[1]
+        self.hold_p_3 = self.hold_p[2]
+        self.pass_1 = self.test_pass[0]
+        self.pass_2 = self.test_pass[1]
+        self.pass_3 = self.test_pass[2]
+        self.fullname = self.firstname+' '+self.surname
+        return self.memprofile ,self.hold_p ,self.test_pass

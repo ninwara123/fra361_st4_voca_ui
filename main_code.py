@@ -7,7 +7,7 @@ import os
 from tkinter.constants import E
 import pygame as pg
 from pygame.draw import rect
-from object import Text, Button,InputBox
+from object import Text, Button,InputBox , user
 import time
 from tkinter import filedialog, mainloop
 import shutil
@@ -19,10 +19,12 @@ import numpy as np
 import csv
 
 ### init ###################################################################################################
+
 pg.init()
 win_x, win_y = 1280, 720
 screen = pg.display.set_mode((win_x, win_y))
 
+u1 = user()
 ### color ###################################################################################################                                                                                                                                                   
 black = (0, 0, 0)
 white = (255, 255, 255)
@@ -104,7 +106,7 @@ input_boxes = [distance_box]
 ExamNo = [0,0] # no.ExamNo , check change ExamNo
 
 memprofile = []            # 'username', 'firstname', 'surname', 'nickname','type_of_pic'
-hold_p = []                # 'animal_hold_p','classroom_hold_p','food_hold_p'
+hold_p = ['0','0','0']                # 'animal_hold_p','classroom_hold_p','food_hold_p'
 test_pass =['','','']      # 'animal_pass','classroom_pass','food_pass'
 csv_member_list = []
 
@@ -163,7 +165,8 @@ while(1):
         screen.blit(ulp.first_page,(0,0))
         pg.display.update()
         pg.time.delay(2000)
-        page = 'scan'
+        page = "login"
+        # page = 'scan'
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit()
@@ -296,18 +299,21 @@ while(1):
                     wrong[2] = 0
                     
                     filenames = os.listdir(user_data_path)
+
                     for filename in filenames:
                         if distance_box.text+'.csv' == filename:
                             user_status = 'have'
                     if  user_status == 'have' : 
                         click = 1    
-                        user_data_file = open('user_data/'+distance_box.text+'.csv','r', encoding="utf8")
-                        reader = csv.reader(user_data_file)
-                        for row in reader:
-                            memprofile = row[0:5]
-                            hold_p = row[5:8]
-                            test_pass = row[8:11]
-                        user_data_file.close()
+                        memprofile,hold_p,test_pass = u1.ReadData(distance_box.text)
+                        # user_data_file = open('user_data/'+distance_box.text+'.csv','r', encoding="utf8")
+
+                        # reader = csv.reader(user_data_file)
+                        # for row in reader:
+                        #     memprofile = row[0:5]
+                        #     hold_p = row[5:8]
+                        #     test_pass = row[8:11]
+                        # user_data_file.close()
                     print('memprofile')
                     print(memprofile)
                     print("hold_p")
@@ -437,15 +443,7 @@ while(1):
         if regis_sub_btn.mouse_on(): #กดปุ่ม register ทำการสร้างไฟล์ ข้อมูลของแต่ละ User
             screen.blit(ulp.register_green_btn, (823,533)) #600, 680, 260, 80
             if pg.mouse.get_pressed()[0] == 1:  # button get click
-                # wrong[1] = 0
-                # wrong[3] = 0 
-                # filenames = os.listdir(user_data_path)
-                # for filename in filenames:
-                #     if username_register.text+'.csv' == filename:
-                #         # r_btn_status = False
-                #         wrong[3] = 1
-                #     # else:
-                #     #     wrong[3] = 0
+                
                 if r_btn_status == True and wrong[3] == 0 :
                     if newstatus ==1:
                         newpath = shutil.copy(filepath,"user_data")
@@ -453,18 +451,21 @@ while(1):
                     if newstatus ==0:
                         typefi = 'png'
                         newpath = shutil.copy(ulp.defualt_user_pic_path,"user_data")
-
-                    user_data_file = open('user_data/'+username_register.text+'.csv', 'x') #creat file
-                    # f.close()
-                    # row = ['username', 'firstname', 'surname', 'nickname','type_of_pic',
-                    #         'animal_hold_p','classroom_hold_p','food_hold_p','animal_pass','classroom_pass','food_pass']
-                    row = [username_register.text, firstname_register.text, surname_register.text, nickname_register.text,typefi,
-                           0,0,0,'','','']
+                    memprofile = [username_register.text, firstname_register.text, surname_register.text, nickname_register.text,typefi,'1']
+                    # hold_p = ['0','0','0']
+                    # test_pass = ['','','']
+                    u1.WriteData(memprofile,hold_p,test_pass)
+                    # user_data_file = open('user_data/'+username_register.text+'.csv', 'x') #creat file
+                    # # f.close()
+                    # # row = ['username', 'firstname', 'surname', 'nickname','type_of_pic',
+                    # #         'animal_hold_p','classroom_hold_p','food_hold_p','animal_pass','classroom_pass','food_pass']
+                    # row = [username_register.text, firstname_register.text, surname_register.text, nickname_register.text,typefi,
+                    #        0,0,0,'','','']
                     
-                    user_data_file = open('user_data/'+username_register.text+'.csv','w', encoding='UTF8', newline='') 
-                    writer = csv.writer(user_data_file)
-                    writer.writerow(row)
-                    user_data_file.close()
+                    # user_data_file = open('user_data/'+username_register.text+'.csv','w', encoding='UTF8', newline='') 
+                    # writer = csv.writer(user_data_file)
+                    # writer.writerow(row)
+                    # user_data_file.close()
 
                     if newstatus == 1:
                         if typefi == 'png':
@@ -589,10 +590,10 @@ while(1):
             if pg.mouse.get_pressed()[0] == 1:
                 click = 1
             if pg.mouse.get_pressed()[0] == 0 and click ==1:
-                m1  = memprofile[1].replace("'","")
-                m2  = memprofile[2].replace("'","")
-                m3  = memprofile[3].replace("'","")
-                m0  = memprofile[0].replace("'","")
+                m1  = memprofile[1]
+                m2  = memprofile[2]
+                m3  = memprofile[3]
+                m0  = memprofile[0]
                 firstname_register1 = InputBox(695, 170, 472,49,35,14,m1)  # distance input box
                 surname_register1 = InputBox(695, 257, 472,49,35,14,m2)  # distance input box
                 nickname_register1 = InputBox(695, 351, 472, 49,35,14,m3)  # spinner's speed input box
@@ -678,23 +679,27 @@ while(1):
             if pg.mouse.get_pressed()[0] == 1:  # button get click
                 if r_btn_status == True :
                     click =1
-                    user_file_name = memprofile[0]
+                    # user_file_name = memprofile[0]
 
-                    row = [memprofile[0], firstname_register1.text, surname_register1.text, nickname_register1.text,memprofile[4],
-                            hold_p[0],hold_p[1],hold_p[2],test_pass[0],test_pass[1],test_pass[2]]
+                    row = [memprofile[0], firstname_register1.text, surname_register1.text, nickname_register1.text,memprofile[4],memprofile[5],
+                            hold_p[0],hold_p[1],hold_p[2],
+                            test_pass[0],test_pass[1],test_pass[2]]
+                    u1.WriteData(row[0:6],row[6:9],row[9:12])
 
-                    user_data_file = open('user_data/'+user_file_name+'.csv','w', encoding='UTF8', newline='') 
-                    writer = csv.writer(user_data_file)
-                    writer.writerow(row)
-                    user_data_file.close()
 
-                    user_data_file = open('user_data/'+user_file_name+'.csv','r', encoding="utf8")
-                    reader = csv.reader(user_data_file)
-                    for row in reader:
-                        memprofile = row[0:5]
-                        hold_p = row[5:8]
-                        test_pass = row[8:11]
-                    user_data_file.close()
+                    # user_data_file = open('user_data/'+user_file_name+'.csv','w', encoding='UTF8', newline='') 
+                    # writer = csv.writer(user_data_file)
+                    # writer.writerow(row)
+                    # user_data_file.close()
+
+                    # user_data_file = open('user_data/'+user_file_name+'.csv','r', encoding="utf8")
+                    # reader = csv.reader(user_data_file)
+                    # for row in reader:
+                    #     memprofile = row[0:5]
+                    #     hold_p = row[5:8]
+                    #     test_pass = row[8:11]
+                    # user_data_file.close()
+                    memprofile,hold_p,test_pass = u1.ReadData(memprofile[0])
 
                     print('memprofile')
                     print(memprofile)
@@ -1072,25 +1077,27 @@ while(1):
         #save change
         if ExamNo[1] == 1 :
             ExamNo[1] = 0
+
             hold_p[word_test[0]] = str(ExamNo[0])
+            u1.WriteData(memprofile,hold_p,test_pass)
+            # user_file_name = memprofile[0]
+            # row = [memprofile[0],memprofile[1],memprofile[2],memprofile[3],memprofile[4],
+            #         hold_p[0],hold_p[1],hold_p[2],test_pass[0],test_pass[1],test_pass[2]]
+
+            # user_data_file = open('user_data/'+user_file_name+'.csv','w', encoding='UTF8', newline='') 
+            # writer = csv.writer(user_data_file)
+            # writer.writerow(row)
+            # user_data_file.close()
+
+            # user_data_file = open('user_data/'+user_file_name+'.csv','r', encoding="utf8")
+            # reader = csv.reader(user_data_file)
+            # for row in reader:
+            #     memprofile = row[0:5]
+            #     hold_p = row[5:8]
+            #     test_pass = row[8:11]
+            # user_data_file.close()
+            memprofile,hold_p,test_pass = u1.ReadData(memprofile[0])
             
-            user_file_name = memprofile[0]
-            row = [memprofile[0],memprofile[1],memprofile[2],memprofile[3],memprofile[4],
-                    hold_p[0],hold_p[1],hold_p[2],test_pass[0],test_pass[1],test_pass[2]]
-
-            user_data_file = open('user_data/'+user_file_name+'.csv','w', encoding='UTF8', newline='') 
-            writer = csv.writer(user_data_file)
-            writer.writerow(row)
-            user_data_file.close()
-
-            user_data_file = open('user_data/'+user_file_name+'.csv','r', encoding="utf8")
-            reader = csv.reader(user_data_file)
-            for row in reader:
-                memprofile = row[0:5]
-                hold_p = row[5:8]
-                test_pass = row[8:11]
-            user_data_file.close()
-
             print('memprofile')
             print(memprofile)
             print("hold_p")
@@ -1121,17 +1128,17 @@ while(1):
     # if test_pass[0] != '' or test_pass[1] != '' or test_pass[2] != '':
     progress_percent = 0.00
     progress_point = 0
-    for n in range(3):
-        if test_pass[n].find("A") != -1 :
-            progress_point += 1
-        if test_pass[n].find("B") != -1 :
-            progress_point += 1
-        if test_pass[n].find("C") != -1 :
-            progress_point += 1
-        if test_pass[n].find("D") != -1 :
-            progress_point += 1
-        if test_pass[n].find("E") != -1 :
-            progress_point += 1
+    # for n in range(3):
+    #     if test_pass[n].find("A") != -1 :
+    #         progress_point += 1
+    #     if test_pass[n].find("B") != -1 :
+    #         progress_point += 1
+    #     if test_pass[n].find("C") != -1 :
+    #         progress_point += 1
+    #     if test_pass[n].find("D") != -1 :
+    #         progress_point += 1
+    #     if test_pass[n].find("E") != -1 :
+    #         progress_point += 1
     progress_percent = round(((progress_point/15)*100),2)
             
     #if event.type==pygame.KEYDOWN:
