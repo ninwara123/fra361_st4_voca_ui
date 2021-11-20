@@ -1,8 +1,15 @@
 import pygame as pg
 import cv2
+
+import os 
+import csv   
+project_path = 'C:/fra361_st4_voca_ui'
+# project_path = 'D:/stu64'
+user_data_path = project_path +'/user_data'
+
 pg.init()
 
-eng_alphabet = [' ','q','w','e','r','t','y','u','i','o','p','a','s','d','f','g','h','j','k','l','z','x','c','v','b','n','m','Q','W','E','R','T','Y','U','I','O','P','A','S','D','F','G','H','J','K','L','Z','X','C','V','B','N','M']
+eng_alphabet = ['q','w','e','r','t','y','u','i','o','p','a','s','d','f','g','h','j',' ','k','l','z','x','c','v','b','n','m','Q','W','E','R','T','Y','U','I','O','P','A','S','D','F','G','H','J','K','L','Z','X','C','V','B','N','M']
 
 regis_success = 0
 class Text():
@@ -62,12 +69,13 @@ class Button():
         return self.status
 class InputBox:
 
-    def __init__(self, x, y, w, h, fontsize ,space_in_y,text='  '):
+    def __init__(self, x, y, w, h, fontsize ,space_in_y,first_upper_mode,text='  '):
         self.rect = pg.Rect(x, y, w, h)
         self.color = (0,0,0)  # inactive color
         self.text = text
         self.fontsize = fontsize
         self.space_in_y = space_in_y
+        self.first_upper_mode = first_upper_mode
         # self.font = pg.font.SysFont("comicsans", fontsize)
         self.font = pg.font.SysFont("browallianewbold", fontsize)
         self.txt_surface = self.font.render(text, True, self.color)
@@ -99,7 +107,13 @@ class InputBox:
                         if event.unicode.isdigit():
                             self.text += event.unicode
                         if event.unicode in eng_alphabet:
-                            self.text += event.unicode
+                            if self.first_upper_mode == 1:
+                                if len(self.text)<3 and event.unicode.islower() == True:
+                                    self.text += event.unicode.upper()
+                                elif len(self.text)>=3:
+                                    self.text += event.unicode
+                            if self.first_upper_mode == 0:
+                                self.text += event.unicode
                 # Re-render the text.
                 self.txt_surface = self.font.render(self.text, True, pg.Color("black"))
                 pg.display.update()
@@ -114,12 +128,7 @@ class InputBox:
         screen.blit(self.txt_surface, (self.rect.x, self.rect.y+self.space_in_y))
         # Blit the rect.
         pg.draw.rect(screen, self.color, self.rect, 2)
-    
 
-import csv
-import os
-project_path = 'C:/fra361_st4_voca_ui'
-user_data_path = project_path +'/user_data'
 
 class user():
     # def __init__(self,username,firstname,surname,nickname,typepic,ishuman,hold_p_1,hold_p_2,hold_p_3,pass_1,pass_2,pass_3):
@@ -134,6 +143,7 @@ class user():
         self.memprofile = []
         self.hold_p = []
         self.test_pass = []
+        self.point_pass = []
         self.username = ''
         self.firstname = ''
         self.surname = ''
@@ -148,10 +158,11 @@ class user():
         self.pass_3 = ''
         self.fullname = self.firstname + self.surname
 
-    def WriteData(self,memprofile,hold_p,test_pass):
+    def WriteData(self,memprofile,hold_p,test_pass,point_pass):
         row = []
         # row = row+self.memprofile+self.hold_p+self.test_pass
-        row = memprofile + hold_p + test_pass
+        row = memprofile + hold_p + test_pass + point_pass
+        print("row")
         print(row)
         # row = row.append(self.hold_p)
         # row = row.append(self.test_pass)
@@ -159,6 +170,23 @@ class user():
         writer = csv.writer(user_data_file)
         writer.writerow(row)
         user_data_file.close()
+        self.memprofile = memprofile
+        self.hold_p = hold_p
+        self.test_pass = test_pass
+        self.point_pass = point_pass
+        self.username = self.memprofile[0]
+        self.firstname = self.memprofile[1]
+        self.surname = self.memprofile[2]
+        self.nickname = self.memprofile[3]
+        self.typepic = self.memprofile[4]
+        self.ishuman = self.memprofile[5]
+        self.hold_p_1 = self.hold_p[0]
+        self.hold_p_2 = self.hold_p[1]
+        self.hold_p_3 = self.hold_p[2]
+        self.pass_1 = self.test_pass[0]
+        self.pass_2 = self.test_pass[1]
+        self.pass_3 = self.test_pass[2]
+        self.fullname = self.firstname+' '+self.surname
         pass
 
     def ReadData(self,username):
@@ -168,6 +196,7 @@ class user():
             self.memprofile = row[0:6]
             self.hold_p = row[6:9]
             self.test_pass = row[9:12]        
+            self.point_pass = row[12:15]
         user_data_file.close()
 
         self.username = self.memprofile[0]
@@ -183,7 +212,7 @@ class user():
         self.pass_2 = self.test_pass[1]
         self.pass_3 = self.test_pass[2]
         self.fullname = self.firstname+' '+self.surname
-        return self.memprofile ,self.hold_p ,self.test_pass
+        return self.memprofile ,self.hold_p ,self.test_pass,self.point_pass
 
     def SerchLogin(self,username):
         filenames = os.listdir(user_data_path)
@@ -198,3 +227,19 @@ class user():
                 print(user_status)
             
         return user_status
+
+    def PointPassAll(self,index):
+        if self.point_pass[index].find("A") != -1 and self.point_pass[index].find("B") != -1  and self.point_pass[index].find("C") != -1  and self.point_pass[index].find("D") != -1  and self.point_pass[index].find("E") != -1  :
+            # print("mode"+str(index)+"pass all")
+            return 1
+        else:
+            return 0
+
+    def TestPassAll(self,index):
+        if self.test_pass[index].find("A") != -1 and self.test_pass[index].find("B") != -1  and self.test_pass[index].find("C") != -1  and self.test_pass[index].find("D") != -1  and self.test_pass[index].find("E") != -1  :
+            # print("mode"+str(index)+"pass all")
+            return 1
+        else:
+            return 0
+
+
