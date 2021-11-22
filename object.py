@@ -1,12 +1,10 @@
 import pygame as pg
 import cv2
-
 import os 
 import csv   
 project_path = 'C:/fra361_st4_voca_ui'
 # project_path = 'D:/stu64'
 user_data_path = project_path +'/user_data'
-
 pg.init()
 
 eng_alphabet = ['q','w','e','r','t','y','u','i','o','p','a','s','d','f','g','h','j',' ','k','l','z','x','c','v','b','n','m','Q','W','E','R','T','Y','U','I','O','P','A','S','D','F','G','H','J','K','L','Z','X','C','V','B','N','M']
@@ -108,10 +106,10 @@ class InputBox:
                             self.text += event.unicode
                         if event.unicode in eng_alphabet:
                             if self.first_upper_mode == 1:
-                                if len(self.text)<3 and event.unicode.islower() == True:
+                                if len(self.text)<3 :
                                     self.text += event.unicode.upper()
                                 elif len(self.text)>=3:
-                                    self.text += event.unicode
+                                    self.text += event.unicode.lower()
                             if self.first_upper_mode == 0:
                                 self.text += event.unicode
                 # Re-render the text.
@@ -162,8 +160,8 @@ class user():
         row = []
         # row = row+self.memprofile+self.hold_p+self.test_pass
         row = memprofile + hold_p + test_pass + point_pass
-        print("row")
-        print(row)
+        # print("row")
+        # print(row)
         # row = row.append(self.hold_p)
         # row = row.append(self.test_pass)
         user_data_file = open('user_data/'+memprofile[0]+'.csv','w', encoding='UTF8', newline='') 
@@ -220,11 +218,12 @@ class user():
         for filename in filenames:
             if username+'.csv' == filename:
                 user_status = 'have'
-                print(user_status)
+                # print(user_status)
                 return user_status
             else:
                 user_status = 'nohave'
-                print(user_status)
+                # print(user_status)
+                # return user_status
             
         return user_status
 
@@ -241,5 +240,3 @@ class user():
             return 1
         else:
             return 0
-
-
