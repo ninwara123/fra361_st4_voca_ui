@@ -2,8 +2,9 @@ import pygame as pg
 import cv2
 import os 
 import csv   
-project_path = 'C:/fra361_st4_voca_ui'
 # project_path = 'D:/stu64'
+project_path = 'C:/fra361_st4_voca_ui'
+
 user_data_path = project_path +'/user_data'
 pg.init()
 

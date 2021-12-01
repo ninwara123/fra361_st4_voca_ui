@@ -41,9 +41,10 @@ orange = (242,157,0)
 u1 = user()
 micc = True
 #login_page
-register_btn = Button(729, 388 , 217, 87)
-login_btn = Button(969, 388, 217, 87)
-distance_box = InputBox(723, 273.3, 471,60,45,17,0)  # distance input box
+face_btn = Button(729, 346 , 217, 87)
+login_btn = Button(969,346 , 217, 87)
+distance_box = InputBox(722, 231, 471,60,45,17,0)  # distance input box
+regis_btn = Button(789, 475 ,337 ,57)
 #register_page
 firstname_register = InputBox(695, 170, 472,49,35,12,1)  # distance input box
 surname_register = InputBox(695, 257, 472,49,35,12,1)  # distance input box
@@ -56,23 +57,23 @@ add_pic = Button(225,395,200,68)
 repic_btn = Button(550,180,45,45)
 clear_pic = Button(0,670,100,50)
 # profile_page
-option = Button(1202,13,63,63)
+option = Button(1200,12,65,65)
 lesson_btn = Button(597,487,268,106)
 practice_btn = Button(904,487,268,106)
 #setting_page
-a1 = Button(0,0,1023,720)
+a1 = Button(0,0,1022,720)
 a2 = Button(1265,79,15,720)
-a3 = Button(1023,0,242,112)
-a4 = Button(1023,252,242,468)
+a3 = Button(1022,0,242,112)
+a4 = Button(1022,252,242,468)
 edit_profile_btn = Button(1036,120,1256-1036,176-120)
 logout_profile_btn = Button(1036,187,1256-1036,241-187)
 #edit_profile_page
 save_sub_btn = Button(823, 533, 217,60)
 #back
-back_page_btn = Button(13,13,59,59)
-back_home_btn = Button(93,13,59,59)
+back_page_btn = Button(16,12,65,65)
+back_home_btn = Button(93,12,65,65)
 #animal
-animal_btn = Button(123,125,375,310)
+animal_btn = Button(48,123,375,234)
 #animal_lesson
 a1 = Button(148,527,161,129)
 a2 = Button(449,113,114,203)
@@ -80,7 +81,7 @@ a3 = Button(455,520,73,158)
 a4 = Button(879,146,274,309)
 a5 = Button(930,554,308,114)
 #classroon
-classroon_btn = Button(455,125,375,310)
+classroon_btn = Button(455,123,375,234)
 #classroom_lesson
 p1 = Button(94,250,189,138)
 p2 = Button(344,366,36,48)
@@ -88,7 +89,7 @@ p3 = Button(459,633,64,44)
 p4 = Button(743,560,69,39)
 p5 = Button(1024,214,104,123)
 #food
-food_btn = Button(860,125,375,310)
+food_btn = Button(860,123,375,234)
 #food_lesson
 n1 = Button(208,260,560-208,440-260)
 n2 = Button(100,500,480,220)
@@ -106,6 +107,7 @@ enter_press = 0
 click = 0
 regis_click = 0
 login_click = 0
+face_click = 0
 pro_correct = 0
 progress_percent = 0.00
 progress_point = 0
@@ -113,6 +115,7 @@ csv_member_list = []
 boi_state = 0
 sound_count = 0
 pic_i_run = []
+activebox = 0
 #list
 wrong =[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 input_registor = [surname_register,firstname_register,nickname_register,username_register]
@@ -143,7 +146,7 @@ food_word_pack =  [2,['Omelette','Spaghetti','Cookies','Croissant','Lemonade']]
 word_test = [] #no.set , word 
 
 #test 
-type_test_inputbox = InputBox(393,530,494,61,50,12,1)
+type_test_inputbox = InputBox(393,494,494,61,50,12,1)
 animal_boxes = [type_test_inputbox]
 animal_key_check_button = Button(1000,600,280,120)
 animal_key_check_i = 0
@@ -191,10 +194,11 @@ while(1):
                 user_data_file.close()
         # print(len(txt_member_list))
         print(csv_list)
+        print(txt_member_list)
         if len(txt_member_list) == 0:
             page = "login"
         else:
-            page = 'scan'
+            page = 'login'
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit()
@@ -228,6 +232,7 @@ while(1):
         while capper == True:
             k += 1 
             print(page,k)
+            # cv2.resize(frame, (0,0), fx=0.3,fy=0.3)
             ret, frame = video_capture.read()
             small_frame = cv2.resize(frame, (0,0), fx=0.3,fy=0.3)
             rgb_small_frame = small_frame[:,:,::-1]
@@ -258,11 +263,13 @@ while(1):
                     output = gTTS(text="สวัสดีน้อง"+memprofile[3],lang="th",slow=False)
                     output.save("s/login_name"+memprofile[0]+".mp3")
                     print("findddddd")
-            if k >= 5:
+                    print(name)
+            if k >= 3:
                 page = "login"
                 capper = False
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
+            
         video_capture.release()
         cv2.destroyAllWindows()
         for event in pg.event.get():
@@ -273,27 +280,44 @@ while(1):
 ##### CODE LOGIN PAGE ########################################################################################
     elif page == 'login':
         screen.blit(ulp.login_page, (0,0))
-        if wrong[4] == 1 and distance_box.active != True:
-            t3 = Text(730,352, 30, "browallianewbold", (255,101,101), 1, 'Incorrect username')
+        if distance_box.active == True:
+            activebox = 1
+            wrong[4] = 0 
+        if wrong[4] == 1 and activebox == 0:
+            t3 = Text(730,311, 30, "browallianewbold", (255,101,101), 1, 'Incorrect username')
             t3.draw(screen)
-        if register_btn.mouse_on():
-            screen.blit(ulp.register_green_btn, (728, 388))
+        if regis_btn.mouse_on():
+            screen.blit(ulp.regis_btn_pic, (789, 475))
             if pg.mouse.get_pressed()[0] == 1: #next state
                 regis_click = 1
+        if face_btn.mouse_on():
+            screen.blit(ulp.facelog_btn, (728, 346))
+            if pg.mouse.get_pressed()[0] == 1: #next state
+                face_click = 1
         if regis_click == 1 and pg.mouse.get_pressed()[0] == 0:
             regis_click = 0
-            page = 'register'
+            page = "register"
+            wrong =[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+            distance_box.text = "  "
+            distance_box.txt_surface = distance_box.font.render(distance_box.text, True, pg.Color("black"))
+        if face_click == 1 and pg.mouse.get_pressed()[0] == 0:
+            face_click = 0
+            if txt_member_list == []:
+                page = "login"
+            elif txt_member_list != []:
+                page = 'scan'
+            wrong =[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
             distance_box.text = "  "
             distance_box.txt_surface = distance_box.font.render(distance_box.text, True, pg.Color("black"))
         if distance_box.text == '  ': # ใส่เพราะแก้บัค
-            t3 = Text(740, 290.3, 45, "browallianewbold", (192,192,192), 1, 'Username') #text username 
+            t3 = Text(740, 248, 45, "browallianewbold", (192,192,192), 1, 'Username') #text username 
             t3.draw(screen)
         if distance_box.text == '  ' :
             login_btn_status = False
         elif distance_box.text != '  ' :
             login_btn_status = True
         if (login_btn.mouse_on() or enter_press == 1) :
-            screen.blit(ulp.login_green_btn, (969, 388))
+            screen.blit(ulp.login_green_btn, (969, 346))
             if (pg.mouse.get_pressed()[0] == 1 or enter_press == 1)and csv_list != []:  # button get click
                 enter_press = 0
                 if login_btn_status is True:  # เพิ่มกรณีที่ไม่มีไฟล์ด้วย 
@@ -302,17 +326,13 @@ while(1):
                         wrong[4] = 0 
                     else :  
                         wrong[4] = 1
+                        activebox = 0
                 if distance_box.text == '  ':
                     wrong[4] = 1 
                     please = True  # get error message
         if click == 1 and pg.mouse.get_pressed()[0] == 0:
             click = 2
             memprofile,hold_p,test_pass,point_pass = u1.ReadData(distance_box.text)
-            
-        if regis_click == 1 and pg.mouse.get_pressed()[0] == 0:
-            regis_click = 0
-            wrong =[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-            page = 'register'
         if click == 2 :
             output = gTTS(text="สวัสดีน้อง"+memprofile[3],lang="th",slow=False)
             output.save("s/login_name"+memprofile[0]+".mp3")
@@ -464,6 +484,21 @@ while(1):
 
 ##### CODE PROFILE PAGE ######################################################################################
     elif page == "profile" :
+        progress_percent = 0.00
+        progress_point = 0
+        for n in range(3):
+            if point_pass[n].find("A") != -1 :
+                progress_point += 1
+            if point_pass[n].find("B") != -1 :
+                progress_point += 1
+            if point_pass[n].find("C") != -1 :
+                progress_point += 1
+            if point_pass[n].find("D") != -1 :
+                progress_point += 1
+            if point_pass[n].find("E") != -1 :
+                progress_point += 1
+        progress_percent = round(((progress_point/15)*100),2)
+
         screen.blit(ulp.profile_page,(0,0))
         userFirstName = memprofile[1]
         userSurName = memprofile[2]
@@ -476,8 +511,14 @@ while(1):
         screen.blit(pg.transform.scale(pic_show_data[4],(pic_show_data[0],pic_show_data[1])),(85+pic_show_data[2],155+pic_show_data[3])) 
         t3.draw(screen)
         t4.draw(screen)
-        pg.draw.rect(screen,green,(797,361,int(355*(progress_percent/100)),48))
-        t_percent = Text(935,370, 45 , "browallianewbold", black, 1, str(progress_percent)) #text username 
+        pg.draw.rect(screen,green,(798,367,int(345*(progress_percent/100)),33))
+        if progress_percent == 0:
+            t_percent = Text(953,373, 35 , "browallianewbold", black, 1, str(progress_percent))
+        if progress_percent > 0 and progress_percent < 10:
+            t_percent = Text(947,373, 35 , "browallianewbold", black, 1, str(progress_percent))
+        if progress_percent >= 10:
+            t_percent = Text(939,373, 35 , "browallianewbold", black, 1, str(progress_percent))
+         #text username 
         t_percent.draw(screen)
         if lesson_btn.mouse_on():
             screen.blit(ulp.lesson_green_btn,(597,487))
@@ -497,7 +538,7 @@ while(1):
         ####################################################################################################################### 
         if option.mouse_on() :                  #---------setting
             backpage = "profile"                # แสดงรูปภาพ
-            screen.blit(ulp.all_setting_btn,(1023,12)) 
+            screen.blit(ulp.all_setting_btn,(1022,12)) 
             if pg.mouse.get_pressed()[0] == 1:
                 click = 1
             if pg.mouse.get_pressed()[0] == 0 and click ==1:
@@ -508,34 +549,23 @@ while(1):
         pg.display.update()
         if call_name == 1:
             playsound(project_path+"/s/login_name"+memprofile[0]+".mp3")
-            call_name = 0
             os.remove(project_path+"/s/login_name"+memprofile[0]+".mp3")
+            call_name = 0
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit()
         ##### CALCULATE PERCENT PROGRESS #############################################################################
-        progress_percent = 0.00
-        progress_point = 0
-        for n in range(3):
-            if point_pass[n].find("A") != -1 :
-                progress_point += 1
-            if point_pass[n].find("B") != -1 :
-                progress_point += 1
-            if point_pass[n].find("C") != -1 :
-                progress_point += 1
-            if point_pass[n].find("D") != -1 :
-                progress_point += 1
-            if point_pass[n].find("E") != -1 :
-                progress_point += 1
-        progress_percent = round(((progress_point/15)*100),2)
-
+        
 ##### CODE SETTING PAGE ######################################################################################
     elif page =="setting" :
         (pos_x, pos_y) = pg.mouse.get_pos() # ถ้าเม้ากดยังจุดใดก็ตามที่ไม่ใช้ในกล่อง setting ให้กลับไปยัง state ก่อนหน้า like : pop-up
         case1 = Button(0,0,1280,110)
         case2 = Button(0,111,1025,720-111)
         case3 = Button(1026,254,1280-1026,720-254)
-        screen.blit(ulp.all_setting_btn,(1023,12)) 
+        if backpage != "edit_profile":
+            screen.blit(ulp.all_setting_btn,(1022,12)) 
+        if backpage == "edit_profile":
+            screen.blit(ulp.all_setting_btn2,(1022,12)) 
         if (case1.mouse_on() or case2.mouse_on() or case3.mouse_on()) :
             if pg.mouse.get_pressed()[0] == 1  :
                 click = 1
@@ -543,7 +573,7 @@ while(1):
                 page = backpage
                 click =0
         if edit_profile_btn.mouse_on() and backpage !="edit_profile" : # กดเม้าไปยัง edit profile สร้างตัวแปรของหน้า edit profile
-            screen.blit(ulp.edit_profile_secl_btn,(1034,122))
+            screen.blit(ulp.edit_profile_secl_btn,(1022,12))
             if pg.mouse.get_pressed()[0] == 1:
                 click = 1
             if pg.mouse.get_pressed()[0] == 0 and click ==1:
@@ -560,7 +590,7 @@ while(1):
                 page = "edit_profile"
                 click =0
         if logout_profile_btn.mouse_on():
-            screen.blit(ulp.logout_profile_secl_btn,(1034,186))
+            screen.blit(ulp.logout_profile_secl_btn,(1022,12))
             if pg.mouse.get_pressed()[0] == 1:
                 click = 1
             if pg.mouse.get_pressed()[0] == 0 and click ==1:
@@ -608,27 +638,19 @@ while(1):
             screen.blit(pg.transform.scale(Profile_pic,(ww,hh)),(134+jj,155+kk))
         t5 = Text(695, 439+13, 35, "browallianewbold", (0,0,0), 1, m0)
         t5.draw(screen)
-        if option.mouse_on() :   #---------setting
-            backpage = "edit_profile"
-            screen.blit(ulp.all_setting_btn,(1023,12)) 
-            if pg.mouse.get_pressed()[0] == 1:
-                click = 1
-            if pg.mouse.get_pressed()[0] == 0 and click ==1:
-                page = "setting"
-                click =0
+        
         if firstname_register1.text == '  ' or surname_register1.text == '  ' or nickname_register1== '  ':
                 r_btn_status = False
         if firstname_register1.text != '  ' and surname_register1.text != '  ' and nickname_register1 != '  ':
             r_btn_status = True
         if save_sub_btn.mouse_on():
-            screen.blit(ulp.save_green_btn, (823,522)) #600, 680, 260, 80
+            screen.blit(ulp.save_green_btn, (823,533)) #600, 680, 260, 80
             if pg.mouse.get_pressed()[0] == 1:  # button get click
                 if r_btn_status == True :
                     click =1
-                    
                     memprofile = [memprofile[0], firstname_register1.text, surname_register1.text, nickname_register1.text,memprofile[4],memprofile[5]]
                     u1.WriteData(memprofile,hold_p,test_pass,point_pass)
-
+                    memprofile,hold_p,test_pass,point_pass = u1.ReadData(memprofile[0]) 
             if pg.mouse.get_pressed()[0] == 0 and click ==1:
                 page = "profile"
                 click =0
@@ -643,9 +665,9 @@ while(1):
             box.draw(screen)
         if option.mouse_on() :   #---------setting
             backpage = "edit_profile"
-            screen.blit(ulp.all_setting_btn,(1023,12))  
+            screen.blit(ulp.all_setting_btn2,(1022,12)) 
             if pg.mouse.get_pressed()[0] == 1:
-                backpage = "edit_profile"
+                click = 1
             if pg.mouse.get_pressed()[0] == 0 and click ==1:
                 page = "setting"
                 click =0
@@ -660,7 +682,7 @@ while(1):
     elif page == 'lesson':
         screen.blit(ulp.lesson_page, (0,0))
         if back_page_btn.mouse_on():
-            screen.blit(ulp.back_page_green_btn,(15,12))
+            screen.blit(ulp.back_page_green_btn,(16,12))
             if pg.mouse.get_pressed()[0] == 1:
                 click = 1
             if pg.mouse.get_pressed()[0] == 0 and click ==1:
@@ -675,7 +697,7 @@ while(1):
                 click =0
         if option.mouse_on() :   #---------setting
             backpage = "lesson"
-            screen.blit(ulp.all_setting_btn,(1023,12)) 
+            screen.blit(ulp.all_setting_btn,(1022,12)) 
             # pg.display.update()
             if pg.mouse.get_pressed()[0] == 1:
                 click = 1
@@ -685,18 +707,21 @@ while(1):
                 back_page_state = "lesson"
                 click =0
         if animal_btn.mouse_on():
+            screen.blit(ulp.m_O_piccc,(48,122))
             if pg.mouse.get_pressed()[0] == 1:
                 click = 1
             if pg.mouse.get_pressed()[0] == 0 and click ==1:
                 page = 'animal_lesson'
                 click =0
         if classroon_btn.mouse_on():
+            screen.blit(ulp.m_O_piccc,(453,122))
             if pg.mouse.get_pressed()[0] == 1:
                 click = 1
             if pg.mouse.get_pressed()[0] == 0 and click ==1:
                 page = 'classroon_lesson'
                 click =0
         if food_btn.mouse_on():
+            screen.blit(ulp.m_O_piccc,(857,122))
             if pg.mouse.get_pressed()[0] == 1:
                 click = 1
             if pg.mouse.get_pressed()[0] == 0 and click ==1:
@@ -786,7 +811,7 @@ while(1):
                 click =0
         if option.mouse_on() and boi_state == 0:   #---------setting
             backpage = "animal_lesson"
-            screen.blit(ulp.all_setting_btn,(1023,12)) 
+            screen.blit(ulp.all_setting_btn,(1022,12)) 
             # pg.display.update()
             if pg.mouse.get_pressed()[0] == 1:
                 click = 1
@@ -882,7 +907,7 @@ while(1):
                 click =0
         if option.mouse_on() and boi_state == 0:   #---------setting
             backpage = "classroon_lesson"
-            screen.blit(ulp.all_setting_btn,(1023,12)) 
+            screen.blit(ulp.all_setting_btn,(1022,12)) 
             # pg.display.update()
             if pg.mouse.get_pressed()[0] == 1:
                 click = 1
@@ -974,7 +999,7 @@ while(1):
                 click =0
         if option.mouse_on() and boi_state == 0:   #---------setting
             backpage = "food_lesson"
-            screen.blit(ulp.all_setting_btn,(1023,12)) 
+            screen.blit(ulp.all_setting_btn,(1022,12)) 
             # pg.display.update()
             if pg.mouse.get_pressed()[0] == 1:
                 click = 1
@@ -993,7 +1018,7 @@ while(1):
     elif page == 'practice':
         screen.blit(ulp.practice_page, (0,0))
         if back_page_btn.mouse_on():
-            screen.blit(ulp.back_page_green_btn,(15,12))
+            screen.blit(ulp.back_page_green_btn,(16,12))
             if pg.mouse.get_pressed()[0] == 1:
                 click = 1
             if pg.mouse.get_pressed()[0] == 0 and click ==1:
@@ -1010,7 +1035,7 @@ while(1):
         
         if option.mouse_on() :   #---------setting
             backpage = "practice"
-            screen.blit(ulp.all_setting_btn,(1023,12)) 
+            screen.blit(ulp.all_setting_btn,(1022,12)) 
             # pg.display.update()
             if pg.mouse.get_pressed()[0] == 1:
                 click = 1
@@ -1077,35 +1102,27 @@ while(1):
             # print(pic_i_run)
         
         if u1.PointPassAll(0) :
-            t_s_1 = Text(123+30, 50+10+100, 50, "browallianewbold", green, 1, 'Success')
-            t_s_1.draw(screen)
-        
+            screen.blit(ulp.reward,(374,303))
         if u1.PointPassAll(1) :
-            t_s_2 = Text(455+30, 50+10+100, 50, "browallianewbold", green, 1, 'Success')
-            t_s_2.draw(screen)
-        
+            screen.blit(ulp.reward,(781,303))
         if u1.PointPassAll(2) :
-            t_s_3 = Text(860+30, 50+10+100, 50, "browallianewbold", green, 1, 'Success')
-            t_s_3.draw(screen)
+            screen.blit(ulp.reward,(1183,303))
         pg.display.update()
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit() 
 
     elif page == 'test_practice':
-        screen.blit(ulp.test_page, (0,0))
         if text_check == 0 :
-            head_text = "Animals"
+            screen.blit(ulp.animal_practice,(0,0))
         if text_check == 1 :
-            head_text = "Classroom"
+            screen.blit(ulp.classroom_practice,(0,0))
         if text_check == 2 :
-            head_text = "Foods"
-        t5 = Text(294, 24, 50, "browallianewbold", (0,0,0), 1, head_text)
-        t5.draw(screen)
+            screen.blit(ulp.food_practice,(0,0))
         t6 = Text(40,110 , 80, "browallianewbold", (0,0,0), 1, str(EXAMNO[0]+1) +" / 5")
         t6.draw(screen)
         if type_test_inputbox.text == "  ":
-            t7 = Text(410,548, 40, "browallianewbold", (150,150,150), 1, "typing word with keyboard")
+            t7 = Text(410,512, 40, "browallianewbold", (150,150,150), 1, "Click & Typing with keyboard")
             t7.draw(screen)
         if back_page_btn.mouse_on():
             screen.blit(ulp.back_page_green_btn,(15,12))
@@ -1121,16 +1138,7 @@ while(1):
             if pg.mouse.get_pressed()[0] == 0 and click ==1:
                 page = "profile"
                 click =0
-        if option.mouse_on() :   #---------setting
-            backpage = "test_practice"
-            screen.blit(ulp.all_setting_btn,(1023,12)) 
-            if pg.mouse.get_pressed()[0] == 1:
-                click = 1
-                option_sta =1
-            if pg.mouse.get_pressed()[0] == 0 and click ==1:
-                page = "setting"
-                back_page_state = "test_practice"
-                click =0
+       
         if back_to_lesson.mouse_on():
             screen.blit(ulp.back_to_lesson_pic,(172,12))
             if pg.mouse.get_pressed()[0] == 1:
@@ -1144,7 +1152,7 @@ while(1):
                 if text_check == 2 :
                     page = "food_lesson"
         if redu_btn.mouse_on():
-            screen.blit(ulp.redu_test_pic,(1051,98))
+            screen.blit(ulp.redu_test_pic,(1060,98))
             if pg.mouse.get_pressed()[0] == 1:
                 click = 1
             if pg.mouse.get_pressed()[0] == 0 and click ==1:
@@ -1155,9 +1163,11 @@ while(1):
         # if EXAMNO[0] == 0:
         #     t2 = Text(90,250, 80, "browallianewbold", green, 1, "sri tao i sas na ja") 
         #     t2.draw(screen)
+        if EXAMNO[0] == 0:
+            screen.blit(ulp.back_test_pic2,(1130,98))
         if EXAMNO[0] > 0:
             if back_test_btn.mouse_on():
-                screen.blit(ulp.back_test_pic,(1127,98))
+                screen.blit(ulp.back_test_pic,(1130,98))
                 if pg.mouse.get_pressed()[0] == 1:
                     click = 1
                 if pg.mouse.get_pressed()[0] == 0 and click ==1:
@@ -1167,9 +1177,21 @@ while(1):
                     type_test_inputbox.text = "  "
                     type_test_inputbox.txt_surface = type_test_inputbox.font.render(type_test_inputbox.text, True, pg.Color("black"))
                     click =0
+        if EXAMNO[0] == 4:
+            screen.blit(ulp.next_test_pic2,(1200,98))
+        if option.mouse_on() :   #---------setting
+            backpage = "test_practice"
+            screen.blit(ulp.all_setting_btn,(1022,12)) 
+            if pg.mouse.get_pressed()[0] == 1:
+                click = 1
+                option_sta =1
+            if pg.mouse.get_pressed()[0] == 0 and click ==1:
+                page = "setting"
+                back_page_state = "test_practice"
+                click =0
         if EXAMNO[0] < 4:
             if next_test_btn.mouse_on():
-                screen.blit(ulp.next_test_pic,(1201,98))
+                screen.blit(ulp.next_test_pic,(1200,98))
                 if pg.mouse.get_pressed()[0] == 1:
                     click = 1
                 if pg.mouse.get_pressed()[0] == 0 and click ==1:
@@ -1205,16 +1227,13 @@ while(1):
             screen.blit(ulp.pro_correct_pic,(0,0))
             type_test_inputbox.txt_surface = type_test_inputbox.font.render(type_test_inputbox.text, True, pg.Color("black"))
             screen.blit(ulp.corect_Ans,(0,0))
-            for i in range(5):
-                if EXAMNO[0] == i and test_pass[word_test[0]].find(checklist_stamp[i]) != -1 :
-                    t4 = Text(90,250, 80, "browallianewbold", green, 1, "PASS") 
-                    t4.draw(screen)
             pg.display.update()
             pg.time.delay(3000)
             pro_correct = 0
         if pro_correct == 1:
             screen.blit(ulp.pro_incorrect_pic,(0,0))
         if type_test_inputbox.text.lower() == ("  "+word_test[1][EXAMNO[0]].lower()) :
+            screen.blit(ulp.press_enter,(0,0))
             screen.blit(ulp.corect_Ans,(0,0))
         if type_test_inputbox.text.lower() != ("  "+word_test[1][EXAMNO[0]].lower()) and type_test_inputbox.text.lower() != ("  "):
             screen.blit(ulp.incorect_Ans,(0,0))
@@ -1223,7 +1242,7 @@ while(1):
                 # print("true answer")
                 practice_pass = 1
                 # pass_test_flag = 1 
-                screen.blit(ulp.record_pic,(0,0))
+                screen.blit(ulp.record_pic,(0,-36))
             enter_press = 0
         for box in animal_boxes:
             box.draw(screen)
@@ -1232,16 +1251,8 @@ while(1):
             hold_p[word_test[0]] = str(EXAMNO[0])
             u1.WriteData(memprofile,hold_p,test_pass,point_pass)
             memprofile,hold_p,test_pass,point_pass = u1.ReadData(memprofile[0])
-            # print('memprofile')
-            # print(memprofile)
-            # print("hold_p")
-            # print(hold_p)
-            # print("test pass")
-            # print(test_pass)   
-        # for point
         checklist_stamp = ['A','B','C','D','E']
         if pass_test_flag == 1 :
-            # print('pass')
             EXAMNO[1] = 1
             pass_test_flag = 0
             for i in range(5):

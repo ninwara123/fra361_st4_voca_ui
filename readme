@@ -5,4 +5,11 @@
 4. library : for --python 3.9.0 
                 - pip install gTTS
                 - pip install pygame
-                - pip install
+                - pip instal playsound==1.2.2
+                - pip install numpy
+                - pip install opencv-python
+                - pip install opencv-contrib-python
+                - pip install SpeechRecognition
+                - pip install pillow
+แก้บัค 
+clean up
