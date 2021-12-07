@@ -8,7 +8,7 @@ import pygame as pg
 # my_ui_pic_path = 'C:/fra361_st4_voca_ui/ui_photo'
 
 ui_pic_path = project_path+'/ui_photo'
-
+tuto_pic_path = project_path+'/tutorial'
 #first
 first_page = pg.image.load(ui_pic_path+"/first_page.jpg")
 #login
@@ -105,33 +105,28 @@ test_page = pg.image.load(ui_pic_path+'/final_practice_game.jpg')
 correct_icon = pg.image.load(ui_pic_path+'/correct.jpg')
 success = pg.image.load((ui_pic_path+'/section.jpg'))
 
+# tutorial lesson
+tuto_lesson1 =  pg.image.load((tuto_pic_path+'/first_page.jpg'))
+tuto_lesson2 =  pg.image.load((tuto_pic_path+'/choose_lesson.jpg'))
+tuto_lesson3 =  pg.image.load((tuto_pic_path+'/choose_in_lesson.jpg'))
+tuto_lesson4 =  pg.image.load((tuto_pic_path+'/show_pop_up.jpg'))
+tuto_lesson5 =  pg.image.load((tuto_pic_path+'/havefunlearning.jpg'))
 
-# animal_test_pic_1 = pg.image.load(ui_pic_path+'/test_pic/animal_test_1.jpg')
-# animal_test_pic_2 = pg.image.load(ui_pic_path+'/test_pic/animal_test_2.jpg')
-# animal_test_pic_3 = pg.image.load(ui_pic_path+'/test_pic/animal_test_3.jpg')
-# # animal_test_pic_4 = pg.image.load(ui_pic_path+'/test_pic/animal_test_4.jpg')
-# # animal_test_pic_5 = pg.image.load(ui_pic_path+'/test_pic/animal_test_5.jpg')
-# # classroom_test_pic_1 = pg.image.load(ui_pic_path+'/test_pic/classroom_1.jpg')
-# # classroom_test_pic_2 = pg.image.load(ui_pic_path+'/test_pic/classroom_2.jpg')
-# # classroom_test_pic_3 = pg.image.load(ui_pic_path+'/test_pic/classroom_3.jpg')
-# # # classroom_pic_4 = pg.image.load(ui_pic_path+'/test_pic/classroom_4.jpg')
-# # # classroom_pic_5 = pg.image.load(ui_pic_path+'/test_pic/classroom_5.jpg')
-# food_test_pic_1 = pg.image.load(ui_pic_path+'/test_pic/food_test_1.jpg')
-# food_test_pic_2 = pg.image.load(ui_pic_path+'/test_pic/food_test_2.jpg')
-# food_test_pic_3 = pg.image.load(ui_pic_path+'/test_pic/food_test_3.jpg')
-# food_test_pic_4 = pg.image.load(ui_pic_path+'/test_pic/animal_test_4.jpg')
-# food_test_pic_5 = pg.image.load(ui_pic_path+'/test_pic/animal_test_5.jpg')
-
-# animal_list_test_pic = [animal_test_pic_1,animal_test_pic_2,animal_test_pic_3,animal_test_pic_1,animal_test_pic_2]
-# classroom_list_test_pic = [classroom_test_pic_1,classroom_test_pic_2,classroom_test_pic_3,classroom_test_pic_4,classroom_test_pic_5]
-# food_list_test_pic = [food_test_pic_1,food_test_pic_2,food_test_pic_3,food_test_pic_4,food_test_pic_5]
-# pic_i_test_object = [animal_list_test_pic,animal_list_test_pic,animal_list_test_pic]
-
-
-
-
-
-
+# tutorial practice
+tuto_practice1 =  pg.image.load((tuto_pic_path+'/tp1.jpg'))
+tuto_practice2 =  pg.image.load((tuto_pic_path+'/tp2.jpg'))
+tuto_practice3 =  pg.image.load((tuto_pic_path+'/tp3.jpg'))
+tuto_practice4 =  pg.image.load((tuto_pic_path+'/tp4.jpg'))
+tuto_practice5 =  pg.image.load((tuto_pic_path+'/tp5.jpg'))
+tuto_practice6 =  pg.image.load((tuto_pic_path+'/tp6.jpg'))
+tuto_practice7 =  pg.image.load((tuto_pic_path+'/tp7.jpg'))
+tuto_practice8 =  pg.image.load((tuto_pic_path+'/tp8.jpg'))
+tuto_practice9 =  pg.image.load((tuto_pic_path+'/tp9.jpg'))
+tuto_practice10 =  pg.image.load((tuto_pic_path+'/tp10.jpg'))
+tuto_practice11 =  pg.image.load((tuto_pic_path+'/tp11.jpg'))
+tuto_practice12 =  pg.image.load((tuto_pic_path+'/havefunplaying.jpg'))
+tuto_practice13 =  pg.image.load((tuto_pic_path+'/tutorial_pratice.jpg'))
+congrad = pg.image.load((tuto_pic_path+'/ccon.png'))
 
 #########################################################################################
 

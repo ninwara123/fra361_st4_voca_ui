@@ -1,5 +1,5 @@
-project_path = 'C:/fra361_st4_voca_ui'
-# project_path = 'D:/stu64'
+# project_path = 'C:/fra361_st4_voca_ui'
+project_path = 'D:/stu64'
 
 # from os import name
 from os import path, read
@@ -20,7 +20,7 @@ import csv
 from playsound import playsound
 from gtts import gTTS
 import speech_recognition as sr
-# import pyaudio
+import pyaudio
 
 ### init ###################################################################################################
 pg.init()
@@ -117,7 +117,7 @@ sound_count = 0
 pic_i_run = []
 activebox = 0
 lt = '1'
-pt = '0'
+pt = '1'
 #list
 wrong =[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 input_registor = [surname_register,firstname_register,nickname_register,username_register]
@@ -211,7 +211,6 @@ while(1):
         for o in range(len(txt_member_list)):
             file_name,type_file = txt_member_list[o].split(".")
             user_data_file = open('user_data/'+file_name+'.csv','r', encoding="utf8")
-            
             reader = csv.reader(user_data_file)
             for row in reader:
                 memprofile = row[0:6]
@@ -255,16 +254,15 @@ while(1):
                         if name+'.csv' == filename:
                             user_status = 'have'
                     if  user_status == 'have' :     
-                        memprofile,hold_p,test_pass,point_pass,tutorial_pass = u1.ReadData(name)
-                        # user_data_file = open('user_data/'+file_name+'.csv','r', encoding="utf8")
-                        # reader = csv.reader(user_data_file)
-                        # for row in reader:
-                        #     memprofile = row[0:6]
-                        #     hold_p = row[6:9]
-                        #     test_pass = row[9:12]                         
-                        #     point_pass = row[12:15]
-                        #     tutorial_pass = row[16:18]
-                        # user_data_file.close()
+                        user_data_file = open('user_data/'+file_name+'.csv','r', encoding="utf8")
+                        reader = csv.reader(user_data_file)
+                        for row in reader:
+                            memprofile = row[0:6]
+                            hold_p = row[6:9]
+                            test_pass = row[9:12]                         
+                            point_pass = row[12:15]
+                            tutorial_pass = row[16:18]
+                        user_data_file.close()
                     capper = False
                     page = "profile"
                     output = gTTS(text="สวัสดีน้อง"+memprofile[3],lang="th",slow=False)
@@ -542,11 +540,11 @@ while(1):
         t_percent.draw(screen)
         if lesson_btn.mouse_on():
             screen.blit(ulp.lesson_green_btn,(597,487))
-            if pg.mouse.get_pressed()[0] == 1 and tutorial_pass[0] == '0':
-                click = 1
-            if pg.mouse.get_pressed()[0] == 0 and click ==1 and tutorial_pass[0] == '0':
-                page = "tutorial_lesson"
-                click =0
+            # if pg.mouse.get_pressed()[0] == 1 and tutorial_pass[0] == '0':
+            #     click = 1
+            # if pg.mouse.get_pressed()[0] == 0 and click ==1 and tutorial_pass[0] == '0':
+            #     page = "tutorial_lesson"
+            #     click =0
             if pg.mouse.get_pressed()[0] == 1 and tutorial_pass[0] == '1':
                 click = 1
             if pg.mouse.get_pressed()[0] == 0 and click ==1 and tutorial_pass[0] == '1':
@@ -554,11 +552,12 @@ while(1):
                 click =0
         if practice_btn.mouse_on():
             screen.blit(ulp.p_g_b,(904,487))
-            if pg.mouse.get_pressed()[0] == 1 and tutorial_pass[1] == '0':
-                click = 1
-            if pg.mouse.get_pressed()[0] == 0 and click ==1 and tutorial_pass[1] == '0':
-                page = "tutorial_practice"
-                click =0
+            # screen.blit(ulp.practice_green_btn(904,487))
+            # if pg.mouse.get_pressed()[0] == 1 and tutorial_pass[1] == '0':
+            #     click = 1
+            # if pg.mouse.get_pressed()[0] == 0 and click ==1 and tutorial_pass[1] == '0':
+            #     page = "tutorial_practice"
+            #     click =0
             if pg.mouse.get_pressed()[0] == 1 and tutorial_pass[1] == '1':
                 click = 1
             if pg.mouse.get_pressed()[0] == 0 and click ==1 and tutorial_pass[1] == '1':
@@ -1043,147 +1042,134 @@ while(1):
                 pg.quit() 
 
 # #### tutorial ######
-    elif page == 'tutorial_practice':
-        if pt == "0":
-            screen.blit(ulp.tuto_practice13,(0,0))
-            pg.display.update()
-            pg.time.delay(2000)
-            pt = '2'
-        if pt == "1":
-            screen.blit(ulp.tuto_practice1,(0,0))
-            pg.display.update()
-            pg.time.delay(2000)
-            pt = '2'
-        if pt == '2':
-            screen.blit(ulp.tuto_practice2,(0,0))
-            pg.display.update()
-            if pg.mouse.get_pressed()[0] == 1:
-                click = 1
-            if pg.mouse.get_pressed()[0] == 0 and click == 1:
-                pt = '3'
-                click = 0
-        if pt == '3':
-            screen.blit(ulp.tuto_practice3,(0,0))
-            pg.display.update()
-            if pg.mouse.get_pressed()[0] == 1:
-                click = 1
-            if pg.mouse.get_pressed()[0] == 0 and click == 1:
-                pt = '4'
-                click = 0
-        if pt == '4':
-            screen.blit(ulp.tuto_practice4,(0,0))
-            pg.display.update()
-            if pg.mouse.get_pressed()[0] == 1:
-                click = 1
-            if pg.mouse.get_pressed()[0] == 0 and click == 1:
-                pt = '5'
-                click = 0
-        if pt == '5':
-            screen.blit(ulp.tuto_practice5,(0,0))
-            pg.display.update()
-            if pg.mouse.get_pressed()[0] == 1:
-                click = 1
-            if pg.mouse.get_pressed()[0] == 0 and click == 1:
-                pt = '6'
-                click = 0
-        if pt == '6':
-            screen.blit(ulp.tuto_practice6,(0,0))
-            pg.display.update()
-            if pg.mouse.get_pressed()[0] == 1:
-                click = 1
-            if pg.mouse.get_pressed()[0] == 0 and click == 1:
-                pt = '7'
-                click = 0
-        if pt == '7':
-            screen.blit(ulp.tuto_practice7,(0,0))
-            pg.display.update()
-            if pg.mouse.get_pressed()[0] == 1:
-                click = 1
-            if pg.mouse.get_pressed()[0] == 0 and click == 1:
-                pt = '8'
-                click = 0
-        if pt == '8':
-            screen.blit(ulp.tuto_practice8,(0,0))
-            pg.display.update()
-            if pg.mouse.get_pressed()[0] == 1:
-                click = 1
-            if pg.mouse.get_pressed()[0] == 0 and click == 1:
-                pt = '9'
-                click = 0
-        if pt == '9':
-            screen.blit(ulp.tuto_practice9,(0,0))
-            pg.display.update()
-            if pg.mouse.get_pressed()[0] == 1:
-                click = 1
-            if pg.mouse.get_pressed()[0] == 0 and click == 1:
-                pt = '10'
-                click = 0
-        if pt == '10':
-            screen.blit(ulp.tuto_practice10,(0,0))
-            pg.display.update()
-            if pg.mouse.get_pressed()[0] == 1:
-                click = 1
-            if pg.mouse.get_pressed()[0] == 0 and click == 1:
-                pt = '12'
-                click = 0
-        if pt == '12':
-            screen.blit(ulp.tuto_practice11,(0,0))
-            pg.display.update()
-            if pg.mouse.get_pressed()[0] == 1:
-                click = 1
-            if pg.mouse.get_pressed()[0] == 0 and click == 1:
-                pt = '11'
-                click = 0
-        if pt == '11':
-            screen.blit(ulp.tuto_practice12,(0,0))
-            pg.display.update()
-            pg.time.delay(2000)
-            page = 'practice'
-            u1.WriteData(memprofile,hold_p,test_pass,point_pass,[tutorial_pass[0],'1'])
-            memprofile,hold_p,test_pass,point_pass,tutorial_pass = u1.ReadData(memprofile[0])
-        for event in pg.event.get():
-            if event.type == pg.QUIT:
-                pg.quit()   
-    elif page == 'tutorial_lesson':
-        if lt == "1":
-            screen.blit(ulp.tuto_lesson1,(0,0))
-            pg.display.update()
-            pg.time.delay(2000)
-            lt = '2'
-        if lt == '2':
-            screen.blit(ulp.tuto_lesson2,(0,0))
-            pg.display.update()
-            if pg.mouse.get_pressed()[0] == 1:
-                click = 1
-            if pg.mouse.get_pressed()[0] == 0 and click == 1:
-                lt = '3'
-                click = 0
-        if lt == '3':
-            screen.blit(ulp.tuto_lesson3,(0,0))
-            pg.display.update()
-            if pg.mouse.get_pressed()[0] == 1:
-                click = 1
-            if pg.mouse.get_pressed()[0] == 0 and click == 1:
-                lt = '4'
-                click = 0
-        if lt == '4':
-            screen.blit(ulp.tuto_lesson4,(0,0))
-            pg.display.update()
-            if pg.mouse.get_pressed()[0] == 1:
-                click = 1
-            if pg.mouse.get_pressed()[0] == 0 and click == 1:
-                lt = '5'
-                click = 0
-        if lt == '5':
-            screen.blit(ulp.tuto_lesson5,(0,0))
-            pg.display.update()
-            pg.time.delay(2000)
-            page = 'lesson'
-            u1.WriteData(memprofile,hold_p,test_pass,point_pass,['1','0'])
-            memprofile,hold_p,test_pass,point_pass,tutorial_pass = u1.ReadData(memprofile[0])
-        for event in pg.event.get():
-            if event.type == pg.QUIT:
-                pg.quit()       
+#     elif page == 'tutorial_practice':
+#         if pt == "1":
+#             screen.blit(ulp.tuto_practice1,(0,0))
+#             pg.display.update()
+#             pg.time.delay(2000)
+#             pt = '2'
+#         if pt == '2':
+#             screen.blit(ulp.tuto_practice2,(0,0))
+#             pg.display.update()
+#             if pg.mouse.get_pressed()[0] == 1:
+#                 click = 1
+#             if pg.mouse.get_pressed()[0] == 0 and click == 1:
+#                 pt = '3'
+#                 click = 0
+#         if pt == '3':
+#             screen.blit(ulp.tuto_practice3,(0,0))
+#             pg.display.update()
+#             if pg.mouse.get_pressed()[0] == 1:
+#                 click = 1
+#             if pg.mouse.get_pressed()[0] == 0 and click == 1:
+#                 pt = '4'
+#                 click = 0
+#         if pt == '4':
+#             screen.blit(ulp.tuto_practice4,(0,0))
+#             pg.display.update()
+#             if pg.mouse.get_pressed()[0] == 1:
+#                 click = 1
+#             if pg.mouse.get_pressed()[0] == 0 and click == 1:
+#                 pt = '5'
+#                 click = 0
+#         if pt == '5':
+#             screen.blit(ulp.tuto_practice5,(0,0))
+#             pg.display.update()
+#             if pg.mouse.get_pressed()[0] == 1:
+#                 click = 1
+#             if pg.mouse.get_pressed()[0] == 0 and click == 1:
+#                 pt = '6'
+#                 click = 0
+#         if pt == '6':
+#             screen.blit(ulp.tuto_practice6,(0,0))
+#             pg.display.update()
+#             if pg.mouse.get_pressed()[0] == 1:
+#                 click = 1
+#             if pg.mouse.get_pressed()[0] == 0 and click == 1:
+#                 pt = '7'
+#                 click = 0
+#         if pt == '7':
+#             screen.blit(ulp.tuto_practice7,(0,0))
+#             pg.display.update()
+#             if pg.mouse.get_pressed()[0] == 1:
+#                 click = 1
+#             if pg.mouse.get_pressed()[0] == 0 and click == 1:
+#                 pt = '8'
+#                 click = 0
+#         if pt == '8':
+#             screen.blit(ulp.tuto_practice8,(0,0))
+#             pg.display.update()
+#             if pg.mouse.get_pressed()[0] == 1:
+#                 click = 1
+#             if pg.mouse.get_pressed()[0] == 0 and click == 1:
+#                 pt = '9'
+#                 click = 0
+#         if pt == '9':
+#             screen.blit(ulp.tuto_practice9,(0,0))
+#             pg.display.update()
+#             if pg.mouse.get_pressed()[0] == 1:
+#                 click = 1
+#             if pg.mouse.get_pressed()[0] == 0 and click == 1:
+#                 pt = '10'
+#                 click = 0
+#         if pt == '10':
+#             screen.blit(ulp.tuto_practice10,(0,0))
+#             pg.display.update()
+#             if pg.mouse.get_pressed()[0] == 1:
+#                 click = 1
+#             if pg.mouse.get_pressed()[0] == 0 and click == 1:
+#                 pt = '11'
+#                 click = 0
+#         if pt == '11':
+#             screen.blit(ulp.tuto_practice11,(0,0))
+#             pg.display.update()
+#             pg.time.delay(2000)
+#             page = 'practice'
+#             u1.WriteData(memprofile,hold_p,test_pass,point_pass,[tutorial_pass[0],'1'])
+#             memprofile,hold_p,test_pass,point_pass,tutorial_pass = u1.ReadData(memprofile[0])
+#         for event in pg.event.get():
+#             if event.type == pg.QUIT:
+#                 pg.quit()   
+#     elif page == 'tutorial_lesson':
+#         if lt == "1":
+#             screen.blit(ulp.tuto_lesson1,(0,0))
+#             pg.display.update()
+#             pg.time.delay(2000)
+#             lt = '2'
+#         if lt == '2':
+#             screen.blit(ulp.tuto_lesson2,(0,0))
+#             pg.display.update()
+#             if pg.mouse.get_pressed()[0] == 1:
+#                 click = 1
+#             if pg.mouse.get_pressed()[0] == 0 and click == 1:
+#                 lt = '3'
+#                 click = 0
+#         if lt == '3':
+#             screen.blit(ulp.tuto_lesson3,(0,0))
+#             pg.display.update()
+#             if pg.mouse.get_pressed()[0] == 1:
+#                 click = 1
+#             if pg.mouse.get_pressed()[0] == 0 and click == 1:
+#                 lt = '4'
+#                 click = 0
+#         if lt == '4':
+#             screen.blit(ulp.tuto_lesson4,(0,0))
+#             pg.display.update()
+#             if pg.mouse.get_pressed()[0] == 1:
+#                 click = 1
+#             if pg.mouse.get_pressed()[0] == 0 and click == 1:
+#                 lt = '5'
+#                 click = 0
+#         if lt == '5':
+#             screen.blit(ulp.tuto_lesson5,(0,0))
+#             pg.display.update()
+#             pg.time.delay(2000)
+#             page = 'lesson'
+#             u1.WriteData(memprofile,hold_p,test_pass,point_pass,['1','0'])
+#             memprofile,hold_p,test_pass,point_pass,tutorial_pass = u1.ReadData(memprofile[0])
+#         for event in pg.event.get():
+#             if event.type == pg.QUIT:
+#                 pg.quit()       
 # ##### CODE PRACTICE PAGE #####################################################################################
 
     elif page == 'practice':
@@ -1447,11 +1433,8 @@ while(1):
             hold_p[word_test[0]] = 0
             output = gTTS(text="เก่งมากครับน้อง"+memprofile[3],lang="th",slow=False)
             output.save("s/good_job_name"+memprofile[0]+".mp3")
-            screen.blit(ulp.congrad,(0,0))
-            pg.display.update()
             playsound(project_path+"/s/good_job_name"+memprofile[0]+".mp3")
             os.remove(project_path+"/s/good_job_name"+memprofile[0]+".mp3")
-            pg.time.delay(2000)
             page = 'practice'
             u1.WriteData(memprofile,hold_p,test_pass,point_pass,tutorial_pass)
         pg.display.update()
