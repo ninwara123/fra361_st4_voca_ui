@@ -108,6 +108,7 @@ click = 0
 regis_click = 0
 login_click = 0
 face_click = 0
+tclick = 0
 pro_correct = 0
 progress_percent = 0.00
 progress_point = 0
@@ -211,7 +212,6 @@ while(1):
         for o in range(len(txt_member_list)):
             file_name,type_file = txt_member_list[o].split(".")
             user_data_file = open('user_data/'+file_name+'.csv','r', encoding="utf8")
-            
             reader = csv.reader(user_data_file)
             for row in reader:
                 memprofile = row[0:6]
@@ -219,10 +219,8 @@ while(1):
             user_data_file.close()
         #ใบหน้าคนที่ต้องการรู้จำเป็นreference #คนที่1
         for i in range(len(txt_member_list)):
-            # print(i)
             file_name,type_file = txt_member_list[i].split(".")
-            # print(file_name+"\n"+type_file)
-            try:
+            try: 
                 known_face_encodings.append(face.face_encodings(face.load_image_file("user_data/"+mempicture_list[i]))[0])
                 known_face_names.append(file_name)
             except:
@@ -245,32 +243,36 @@ while(1):
             face_locations = face.face_locations(rgb_small_frame, model="cnn")
             face_encodings = face.face_encodings(rgb_small_frame, face_locations)
             for face_encoding in face_encodings:
-                face_distances = face.face_distance(known_face_encodings, face_encoding)
-                best = np.argmin(face_distances)
-                face_percent_value = 1-face_distances[best]
-                if face_percent_value >= 0.5:
-                    name = known_face_names[best]
-                    filenames = os.listdir(user_data_path)
-                    for filename in filenames:
-                        if name+'.csv' == filename:
-                            user_status = 'have'
-                    if  user_status == 'have' :     
-                        memprofile,hold_p,test_pass,point_pass,tutorial_pass = u1.ReadData(name)
-                        # user_data_file = open('user_data/'+file_name+'.csv','r', encoding="utf8")
-                        # reader = csv.reader(user_data_file)
-                        # for row in reader:
-                        #     memprofile = row[0:6]
-                        #     hold_p = row[6:9]
-                        #     test_pass = row[9:12]                         
-                        #     point_pass = row[12:15]
-                        #     tutorial_pass = row[16:18]
-                        # user_data_file.close()
-                    capper = False
-                    page = "profile"
-                    output = gTTS(text="สวัสดีน้อง"+memprofile[3],lang="th",slow=False)
-                    output.save("s/login_name"+memprofile[0]+".mp3")
-                    print("findddddd")
-                    print(name)
+                try:
+                    face_distances = face.face_distance(known_face_encodings, face_encoding)
+                    best = np.argmin(face_distances)
+                    face_percent_value = 1-face_distances[best]
+                    if face_percent_value >= 0.5:
+                        name = known_face_names[best]
+                        print(name)
+                        filenames = os.listdir(user_data_path)
+                        for filename in filenames:
+                            if name+'.csv' == filename:
+                                user_status = 'have'
+                        if  user_status == 'have' :     
+                            memprofile,hold_p,test_pass,point_pass,tutorial_pass = u1.ReadData(file_name)
+                            # user_data_file = open('user_data/'+file_name+'.csv','r', encoding="utf8")
+                            # reader = csv.reader(user_data_file)
+                            # for row in reader:
+                            #     memprofile = row[0:6]
+                            #     hold_p = row[6:9]
+                            #     test_pass = row[9:12]                         
+                            #     point_pass = row[12:15]
+                            #     tutorial_pass = row[16:18]
+                            # user_data_file.close()
+                        capper = False
+                        page = "profile"
+                        output = gTTS(text="สวัสดีน้อง"+memprofile[3],lang="th",slow=False)
+                        output.save("s/login_name"+memprofile[0]+".mp3")
+                        print("findddddd")
+                        print(name)
+                except:
+                    continue
             if k >= 3:
                 page = "login"
                 capper = False
@@ -399,9 +401,11 @@ while(1):
             if take_pic.mouse_on():
                 if pg.mouse.get_pressed()[0] == 1: 
                     take_pic_state = 1
+                    takephoto = cv2.VideoCapture(0)
                 screen.blit(ulp.take_pic_btn,(224,289))
+            
             while take_pic_state == 1:
-                takephoto = cv2.VideoCapture(0)
+                # takephoto = cv2.VideoCapture(0)
                 ret, frame = takephoto.read()
                 cv2.imshow('video',frame)
                 if (cv2.waitKey(1) & 0xFF == 13):
@@ -417,13 +421,10 @@ while(1):
                 if pg.mouse.get_pressed()[0] == 1:
                     filepath=filedialog.askopenfilename(initialdir=os.getcwd(),title="select image file",\
                     filetypes=(('JPG file','*.jpg'),('PNG file','*.png'))) # เลือกดึงรูปจาก computer เฉพาะ JPG,PNG
-                    is_human = 1
-                    newstatus = 1
-                    re_pic = 1
-                    r_btn_status = True  
-                    add_pic_state = 0 
-                else:
-                    add_pic_state = 0  
+                    if filepath!="":
+                        is_human = 1
+                        newstatus = 1
+                        re_pic = 1
         if newstatus == 1: #เปลงไฟลภาพให้พอดีกับกรอบรูป ##function
             image = cv2.imread(filepath)
             Profile_pic = pg.image.load(filepath)
@@ -542,28 +543,34 @@ while(1):
         t_percent.draw(screen)
         if lesson_btn.mouse_on():
             screen.blit(ulp.lesson_green_btn,(597,487))
-            if pg.mouse.get_pressed()[0] == 1 and tutorial_pass[0] == '0':
-                click = 1
-            if pg.mouse.get_pressed()[0] == 0 and click ==1 and tutorial_pass[0] == '0':
-                page = "tutorial_lesson"
-                click =0
-            if pg.mouse.get_pressed()[0] == 1 and tutorial_pass[0] == '1':
-                click = 1
-            if pg.mouse.get_pressed()[0] == 0 and click ==1 and tutorial_pass[0] == '1':
-                page = "lesson"
-                click =0
+            try:
+                if pg.mouse.get_pressed()[0] == 1 and tutorial_pass[0] == '0':
+                    tclick = 1
+                if pg.mouse.get_pressed()[0] == 0 and tclick ==1 and tutorial_pass[0] == '0':
+                    page = "tutorial_lesson"
+                    tclick =0
+                if pg.mouse.get_pressed()[0] == 1 and tutorial_pass[0] == '1':
+                    click = 1
+                if pg.mouse.get_pressed()[0] == 0 and click ==1 and tutorial_pass[0] == '1':
+                    page = "lesson"
+                    click =0
+            except:
+                continue
         if practice_btn.mouse_on():
             screen.blit(ulp.p_g_b,(904,487))
-            if pg.mouse.get_pressed()[0] == 1 and tutorial_pass[1] == '0':
-                click = 1
-            if pg.mouse.get_pressed()[0] == 0 and click ==1 and tutorial_pass[1] == '0':
-                page = "tutorial_practice"
-                click =0
-            if pg.mouse.get_pressed()[0] == 1 and tutorial_pass[1] == '1':
-                click = 1
-            if pg.mouse.get_pressed()[0] == 0 and click ==1 and tutorial_pass[1] == '1':
-                page = "practice"
-                click =0
+            try:
+                if pg.mouse.get_pressed()[0] == 1 and tutorial_pass[1] == '0':
+                    tclick = 1
+                if pg.mouse.get_pressed()[0] == 0 and tclick ==1 and tutorial_pass[1] == '0':
+                    page = "tutorial_practice"
+                    tclick =0
+                if pg.mouse.get_pressed()[0] == 1 and tutorial_pass[1] == '1':
+                    click = 1
+                if pg.mouse.get_pressed()[0] == 0 and click ==1 and tutorial_pass[1] == '1':
+                    page = "practice"
+                    click =0
+            except:
+                continue
         ####################################################################################################################### 
         if option.mouse_on() :                  #---------setting
             backpage = "profile"                # แสดงรูปภาพ
