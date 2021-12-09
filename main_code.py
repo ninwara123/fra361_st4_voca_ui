@@ -255,7 +255,7 @@ while(1):
                             if name+'.csv' == filename:
                                 user_status = 'have'
                         if  user_status == 'have' :     
-                            memprofile,hold_p,test_pass,point_pass,tutorial_pass = u1.ReadData(file_name)
+                            memprofile,hold_p,test_pass,point_pass,tutorial_pass = u1.ReadData(name)
                             # user_data_file = open('user_data/'+file_name+'.csv','r', encoding="utf8")
                             # reader = csv.reader(user_data_file)
                             # for row in reader:
